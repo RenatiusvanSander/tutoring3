@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @ComponentScan("edu.remad.tutoring3")
 public class TutoringAppConfig implements WebMvcConfigurer {
-
+	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
@@ -29,7 +29,7 @@ public class TutoringAppConfig implements WebMvcConfigurer {
 		viewResolver.setViewClass(JstlView.class);
 		viewResolver.setPrefix("/WEB-INF/templates/views/");
 		viewResolver.setSuffix(".jsp");
-		viewResolver.setOrder(1);
+		viewResolver.setOrder(2);
 
 		return viewResolver;
 	}
