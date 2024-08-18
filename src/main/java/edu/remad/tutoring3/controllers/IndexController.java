@@ -1,22 +1,17 @@
 package edu.remad.tutoring3.controllers;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class IndexController {
 
-	@GetMapping("index")
+	@GetMapping(path="index", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String index() {
-		return "index";
-	}
-	
-	@GetMapping(".")
-	public String mainMapping() {
-		return "ffffffff";
+		return "gdgdgdgdgdg hgdgdgdgd";
 	}
 }
