@@ -14,38 +14,12 @@
 ## KIND, either express or implied.  See the License for the
 ## specific language governing permissions and limitations
 ## under the License.
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-"http://www.w3.org/TR/html4/strict.dtd">
-
-#set( $stylesheet = '/layout/layout.css' )
-#set( $css = $text.css )
-#parse( 'header.vm' )
-
-<div class="content">
-	<h1>$text.appname: $css.name</h1>
-	<p>$screen_content</p>
-</div>
-
-<div id="navAlpha">
-  <p>
-    <div class="menu">
-      #parse( 'toolmenu.vm' )
-    </div>
-  </p>
-  <p>
-  </p>
-</div>
-
-<div id="navBeta">
-  <div class="menu">
-    #parse( 'layoutmenu.vm' )
-  </div>
-
-	<h2>$css.niftyHeader</h2>
-	<p>$css.nifty</p>
-</div>
-
-<!-- BlueRobot was here. -->
-
-#parse( 'footer.vm' )
+#set( $slink = $link.self )
+#set( $layouts = $text.layouts )
+<h3>$layouts.header:</h3>
+<ul>
+  <li><a href="$slink">$layouts.css</a></li>
+  <li><a href="$slink.layout('Simple')">$layouts.simple</a></li>
+  <li><a href="$slink.layout('Table')">$layouts.table</a></li>
+  <li><a href="$slink.layout('Print')">$layouts.print</a></li>
+</ul>

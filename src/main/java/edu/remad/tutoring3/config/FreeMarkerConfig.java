@@ -16,7 +16,7 @@ public class FreeMarkerConfig {
 	    FreeMarkerViewResolver resolver = new FreeMarkerViewResolver(); 
 	    resolver.setCache(true); 
 	    resolver.setSuffix(".ftl");
-	    resolver.setOrder(0);
+	    resolver.setOrder(1);
 	    
 	    return resolver; 
 	}
