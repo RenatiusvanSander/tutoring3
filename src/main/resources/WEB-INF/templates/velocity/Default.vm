@@ -30,7 +30,7 @@
 <div id="navAlpha">
   <p>
     <div class="menu">
-      #parse( '/WEB-INF/templates/velocity/toolmenu.vm' )
+      No Menubar
     </div>
   </p>
   <p>

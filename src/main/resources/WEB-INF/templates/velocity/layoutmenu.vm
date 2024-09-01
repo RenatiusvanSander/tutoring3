@@ -14,12 +14,4 @@
 ## KIND, either express or implied.  See the License for the
 ## specific language governing permissions and limitations
 ## under the License.
-#set( $slink = $link.self )
-#set( $layouts = $text.layouts )
-<h3>$layouts.header:</h3>
-<ul>
-  <li><a href="$slink">$layouts.css</a></li>
-  <li><a href="$slink.layout('Simple')">$layouts.simple</a></li>
-  <li><a href="$slink.layout('Table')">$layouts.table</a></li>
-  <li><a href="$slink.layout('Print')">$layouts.print</a></li>
-</ul>
+

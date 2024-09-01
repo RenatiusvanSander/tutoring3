@@ -1,14 +1,26 @@
 package edu.remad.tutoring3.velocity;
 
 import java.io.StringWriter;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.tools.Scope;
+import org.apache.velocity.tools.ToolManager;
+import org.apache.velocity.tools.Toolbox;
+import org.apache.velocity.tools.ToolboxFactory;
+import org.apache.velocity.tools.config.EasyFactoryConfiguration;
+import org.apache.velocity.tools.generic.ConversionTool;
+import org.apache.velocity.tools.generic.DateTool;
+import org.apache.velocity.tools.generic.NumberTool;
+import org.apache.velocity.tools.generic.ResourceTool;
+import org.apache.velocity.tools.generic.XmlTool;
+import org.apache.velocity.tools.view.PagerTool;
+import org.apache.velocity.tools.view.ParameterTool;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -18,6 +30,7 @@ import org.springframework.web.servlet.view.AbstractTemplateView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class VelocityView extends AbstractTemplateView {
 
@@ -26,6 +39,8 @@ public class VelocityView extends AbstractTemplateView {
 
 	private VelocityEngine velocityEngine;
 	private VelocityProperty velocityProperty;
+	private EasyFactoryConfiguration toolBoxConfig;
+	private ToolboxFactory toolboxFactory;
 
 	public void setVelocityEngine(VelocityEngine velocityEngine) {
 		this.velocityEngine = velocityEngine;
@@ -57,8 +72,13 @@ public class VelocityView extends AbstractTemplateView {
 	@Override
 	protected void renderMergedTemplateModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		Context velocityContext = new VelocityContext(model);
-		doRender(velocityContext, response);
+
+		ToolManager tm = new ToolManager();
+		tm.configure(getConfig());
+		tm.setVelocityEngine(velocityEngine);
+		Context context = tm.createContext();
+
+		doRender(context, response);
 	}
 
 	private void doRender(Context context, HttpServletResponse response) throws Exception {
@@ -88,8 +108,7 @@ public class VelocityView extends AbstractTemplateView {
 	 */
 	private void renderScreenContent(Context velocityContext) throws Exception {
 		logger.debug("Rendering screen content template [" + getUrl() + "]");
-		
-		String url = getUrl();
+
 		StringWriter sw = new StringWriter();
 		Template screenContentTemplate = getTemplate(getUrl());
 		screenContentTemplate.merge(velocityContext, sw);
@@ -100,4 +119,32 @@ public class VelocityView extends AbstractTemplateView {
 	private Template getTemplate(String url) {
 		return velocityEngine.getTemplate(url, "UTF-8");
 	}
+
+	private EasyFactoryConfiguration getConfig() {
+		if (toolBoxConfig == null) {
+			toolBoxConfig = new EasyFactoryConfiguration();
+			toolBoxConfig.data("author", "Remy Meier");
+
+			// scope request config
+			toolBoxConfig.toolbox("request").property("xhtml", true).tool(org.apache.velocity.tools.view.LinkTool.class)
+					.tool(PagerTool.class).property("createSession", Boolean.TRUE).tool(ResourceTool.class)
+					.property("bundles", "resources,otherStuff"); // .tool(ParameterTool.class);
+
+			// scope session config
+			toolBoxConfig.toolbox("session").property("locale", Locale.US)
+					.tool(org.apache.velocity.tools.view.BrowserTool.class).property("languagesFilter", "en,fr");
+
+			// toolbox scope application
+			toolBoxConfig.toolbox("application").tool(DateTool.class).property("format", LAYOUT_KEY)
+					.property("depth", "2").property("skip", "month")
+					.tool(org.apache.velocity.tools.generic.MathTool.class).tool(NumberTool.class)
+					.property("format", "#0.0").tool(XmlTool.class).property("resource", "file.xml")
+					.property("safeMode", Boolean.FALSE).tool(ConversionTool.class)
+					.property("dateFormat", "yyyy-MM-dd");
+			toolBoxConfig.number("version", 1.1);
+		}
+
+		return toolBoxConfig;
+	}
+
 }

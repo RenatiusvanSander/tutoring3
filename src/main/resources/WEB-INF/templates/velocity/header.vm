@@ -16,12 +16,6 @@
 ## under the License.
 <html>
 <head>
-  <title>VelocityTools - $text.appname#if( $page_title ) - $page_title#end</title>
-#if( $stylesheet )
-  <style type="text/css" media="screen">@import "$link.relative($stylesheet)";</style>
-#end
-#if( $displayTagStylesheet )
-  <style type="text/css" media="screen">@import "$link.relative($displayTagStylesheet)";</style>
-#end
+  <title>VelocityTools - $text.appname #if( $!page_title ) - $!page_title#end</title>
 </head>
-<body#if( $onload ) onload="$onload"#end>
+<body#if( $!onload ) onload="$!onload"#end>
