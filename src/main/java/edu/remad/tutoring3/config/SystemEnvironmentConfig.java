@@ -11,6 +11,9 @@ public class SystemEnvironmentConfig {
 
 	@Bean
     SystemEnvironment systemEnvironment() {
-		return SystemEnvironmentFactory.getInstance();
+		SystemEnvironment environment = SystemEnvironmentFactory.getInstance();
+		environment.writeSystemEnvironmentWhenStageDevToLog();
+		
+		return environment;
 	}
 }

@@ -66,4 +66,18 @@ public class SystemEnvironment {
 	public String getAppDevelopmentDataSourcesMysqlPassword() {
 		return properties.get("TUTORING3_DEVELOPMENT_DATA_SOURCES_MYSQL_PASSWORD");
 	}
+	
+	public String getAppDevelopmentKeycloakKeySetUri() {
+		return properties.get("TUTORING3_DEVELOPMENT_KEYCLOAK_KEY_SET_URI");
+	}
+	
+	public void writeSystemEnvironmentWhenStageDevToLog () {
+		if(getAppStage().equalsIgnoreCase("dev")) {
+			System.out.println("######################System Environment of Tutoring Start######################");
+			for(Map.Entry<String, String> property : properties.entrySet()) {
+				System.out.println(property.getKey() + ": " + property.getValue());
+			}
+			System.out.println("#######################System Environment of Tutoring End#######################");
+		}
+	}
 }
