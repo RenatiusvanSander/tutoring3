@@ -11,13 +11,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 import edu.remad.tutoring3.velocity.VelocityProperty;
 import edu.remad.tutoring3.velocity.VelocityViewResolver;
 
-@Configuration
 public class VelocityConfig {
 
 	@Bean
