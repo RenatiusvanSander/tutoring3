@@ -4,18 +4,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-@Configuration
 public class FreeMarkerConfig {
 
     @Bean
     FreeMarkerViewResolver freeMarkerViewResolver() { 
-	    FreeMarkerViewResolver resolver = new FreeMarkerViewResolver(); 
+	    FreeMarkerViewResolver resolver = new FreeMarkerViewResolver("",".ftl"); 
 	    resolver.setCache(true); 
-	    resolver.setSuffix(".ftl");
 	    resolver.setOrder(1);
 	    
 	    return resolver; 
@@ -27,11 +24,11 @@ public class FreeMarkerConfig {
 		properties.put("auto_import", "/spring.ftl as spring");
 		properties.put("template_exception_handler", "rethrow");
 
-		FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-		configurer.setTemplateLoaderPath("/WEB-INF/templates/freemarker");
-		configurer.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
-		configurer.setFreemarkerSettings(properties);
+		FreeMarkerConfigurer freemarkerConfigurer = new FreeMarkerConfigurer();
+		freemarkerConfigurer.setTemplateLoaderPath("/WEB-INF/templates/freemarker");
+		freemarkerConfigurer.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
+		freemarkerConfigurer.setFreemarkerSettings(properties);
 
-		return configurer;
+		return freemarkerConfigurer;
 	}
 }
