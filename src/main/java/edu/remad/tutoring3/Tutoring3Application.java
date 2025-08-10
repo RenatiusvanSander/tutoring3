@@ -8,13 +8,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import edu.remad.tutoring3.config.FreeMarkerConfig;
+import edu.remad.tutoring3.config.Tutoring3BeanConfig;
 import edu.remad.tutoring3.config.TutoringAppConfig;
 import edu.remad.tutoring3.config.VelocityConfig;
 
 @SpringBootApplication
-@Import({VelocityConfig.class, TutoringAppConfig.class, FreeMarkerConfig.class})
+@Import({VelocityConfig.class, TutoringAppConfig.class, FreeMarkerConfig.class, Tutoring3BeanConfig.class})
 public class Tutoring3Application extends SpringBootServletInitializer {
 	
 	/**
