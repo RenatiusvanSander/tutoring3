@@ -1,11 +1,18 @@
 package edu.remad.tutoring3.helper.jwt;
 
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.stereotype.Component;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
-@Component
-public class Tutoring3JwtHelper {
+public final class Tutoring3JwtHelper {
 
-	NimbusJwtDecoder jwtDecoder = null;
+	private Tutoring3JwtHelper() {
+		// do not instantiate
+	}
+	
+	public static String getAccessToken(JwtAuthenticationToken jwtAuthenticationToken) {
+		Jwt principal = (Jwt) jwtAuthenticationToken.getPrincipal();
+		
+		return principal.getTokenValue();
+	}
 	
 }

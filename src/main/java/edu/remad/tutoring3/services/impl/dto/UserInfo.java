@@ -1,52 +1,56 @@
 package edu.remad.tutoring3.services.impl.dto;
 
-import java.util.Objects;
-
 public class UserInfo {
 
 	private String sub;
+	private String email_verified;
+	private String name;
 	private String preferred_username;
-	private String DOB;
-	private String organization;
-
+	private String given_name;
+	private String family_name;
+	private String email;
+	
 	public String getSub() {
 		return sub;
 	}
-
+	public void setSub(String sub) {
+		this.sub = sub;
+	}
+	public String getEmail_verified() {
+		return email_verified;
+	}
+	public void setEmail_verified(String email_verified) {
+		this.email_verified = email_verified;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getPreferred_username() {
 		return preferred_username;
 	}
-
-	public String getDOB() {
-		return DOB;
+	public void setPreferred_username(String preferred_username) {
+		this.preferred_username = preferred_username;
 	}
-
-	public String getOrganization() {
-		return organization;
+	public String getGiven_name() {
+		return given_name;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(DOB, organization, preferred_username, sub);
+	public void setGiven_name(String given_name) {
+		this.given_name = given_name;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserInfo other = (UserInfo) obj;
-		return Objects.equals(DOB, other.DOB) && Objects.equals(organization, other.organization)
-				&& Objects.equals(preferred_username, other.preferred_username) && Objects.equals(sub, other.sub);
+	public String getFamily_name() {
+		return family_name;
 	}
-
-	@Override
-	public String toString() {
-		return "UserInfo [sub=" + sub + ", preferred_username=" + preferred_username + ", DOB=" + DOB
-				+ ", organization=" + organization + "]";
+	public void setFamily_name(String family_name) {
+		this.family_name = family_name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

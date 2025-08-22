@@ -12,10 +12,7 @@ public class AuthenticationEventsListener {
 
 	@EventListener(classes = AuthenticationSuccessEvent.class)
 	public JwtAuthenticationSuccessEvent onSuccess(AuthenticationSuccessEvent success) {
-		JwtAuthenticationSuccessEvent event = new JwtAuthenticationSuccessEvent();
-		event.setJwtAuthenticationToken((JwtAuthenticationToken) success.getAuthentication());
-		
-		return event;
+		return new JwtAuthenticationSuccessEvent((JwtAuthenticationToken) success.getAuthentication());
 	}
 
 }
