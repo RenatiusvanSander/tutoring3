@@ -1,11 +1,15 @@
 package edu.remad.tutoring3.helper.jwt;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+
+import com.nimbusds.jose.shaded.gson.internal.LinkedTreeMap;
 
 public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 
@@ -13,7 +17,13 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 	private static final long serialVersionUID = -7852449385736553021L;
 
 	private String[] scopes;
-	
+
+	private List<String> realmAccessRoles;
+
+	private List<String> tutoring3Roles;
+
+	private List<String> accountRoles;
+
 	/**
 	 * Constructs a {@code JwtAuthenticationTokenHelper} using the provided
 	 * parameters.
@@ -54,7 +64,7 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 	}
 
 	public boolean isEmailVerified() {
-		return getToken().getClaimAsBoolean("email_verified");
+		return getToken().getClaimAsBoolean("email_verified").booleanValue();
 	}
 
 	public String getPreferredUsername() {
@@ -86,8 +96,9 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 
 		scopes = getToken().getClaimAsString("scope").split(" ");
 		int scopeLength = scopes.length;
+		String[] defensiveScopeCopies = copyArray(new String[scopeLength], scopeLength);
 
-		return copyArray(new String[scopeLength], scopeLength);
+		return defensiveScopeCopies;
 	}
 
 	private String[] copyArray(String[] defensiveScopeCopy, int scopeLength) {
@@ -95,23 +106,44 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 
 		return defensiveScopeCopy;
 	}
-	
+
 	public List<String> getTutoring3Roles() {
-		List<String> tutoring3Roles = getToken().getClaimAsStringList("tutoring2-resource-server");
-		
-		return tutoring3Roles;
+		if (tutoring3Roles != null) {
+			return new ArrayList<>(tutoring3Roles);
+		}
+
+		Map<String, Object> resourceAccess = getToken().getClaimAsMap("resource_access");
+		Map<String, Object> tutoring3ResourceServer = (Map<String, Object>) resourceAccess.get("tutoring2-resource-server");
+		List<String> roles2 = (List<String>) tutoring3ResourceServer.get("roles");
+
+		tutoring3Roles = roles2.stream().map(role -> "ROLE_" + role).toList();
+
+		return new ArrayList<String>(tutoring3Roles);
 	}
-	
+
 	public List<String> getRealmAccessRoles() {
-		List<String> realmAccessRoles = getToken().getClaimAsStringList("realm_access");
-		
-		return realmAccessRoles;
+		if (realmAccessRoles != null) {
+			return new ArrayList<String>(realmAccessRoles);
+		}
+
+		Map<String, Object> realmAccess = getToken().getClaimAsMap("realm_access");
+		List<String> roles = (List<String>) realmAccess.get("roles");
+		realmAccessRoles = roles.stream().map(role -> "ROLE_" + role).toList();
+
+		return new ArrayList<String>(realmAccessRoles);
 	}
-	
-	public List<String> getResourceAccessRoles() {
-		List<String> resourceAccessRoles = getToken().getClaimAsStringList("resource_access");
-		
-		return resourceAccessRoles;
+
+	public List<String> getAccountRoles() {
+		if (accountRoles != null) {
+			return new ArrayList<>(accountRoles);
+		}
+
+		Map<String, Object> resourceAccess = getToken().getClaimAsMap("resource_access");
+		Map<String, Object> account = (LinkedTreeMap<String, Object>) resourceAccess.get("account");
+		List<String> accountRoles = (List<String>) account.get("roles");
+		accountRoles = accountRoles.stream().map(role -> "ROLE_" + role).toList();
+
+		return new ArrayList<>(accountRoles);
 	}
 
 }

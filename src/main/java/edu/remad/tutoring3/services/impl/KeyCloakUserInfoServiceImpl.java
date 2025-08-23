@@ -2,7 +2,6 @@ package edu.remad.tutoring3.services.impl;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
