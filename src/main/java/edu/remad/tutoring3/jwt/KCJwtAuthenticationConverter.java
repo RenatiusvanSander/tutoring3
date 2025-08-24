@@ -1,12 +1,9 @@
 package edu.remad.tutoring3.jwt;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
-
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -17,23 +14,28 @@ import edu.remad.tutoring3.helper.jwt.JwtAuthenticationTokenHelper;
 
 @Component
 public class KCJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
-	
+
 	private Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-	
+
 	private String principalClaimName = "resource_access";
-	
+
 	@Override
 	public final AbstractAuthenticationToken convert(Jwt jwt) {
 		JwtAuthenticationTokenHelper jwtHelper = new JwtAuthenticationTokenHelper(jwt);
 		String principalClaimValue = jwt.getClaimAsString(principalClaimName);
-		Collection<GrantedAuthority> authorities = jwtHelper.getTutoring3Roles().stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList());
-		
-		return new JwtAuthenticationTokenHelper(jwt, authorities, principalClaimValue);
+		Collection<GrantedAuthority> authorities = jwtHelper.getTutoring3Roles();
+
+		JwtAuthenticationTokenHelper jwtAuthenticationToken = new JwtAuthenticationTokenHelper(jwt, authorities,
+				principalClaimValue);
+
+		return jwtAuthenticationToken;
 	}
-	
+
 	/**
-	 * Sets the {@link Converter Converter&lt;Jwt, Collection&lt;GrantedAuthority&gt;&gt;}
-	 * to use. Defaults to {@link JwtGrantedAuthoritiesConverter}.
+	 * Sets the {@link Converter Converter&lt;Jwt,
+	 * Collection&lt;GrantedAuthority&gt;&gt;} to use. Defaults to
+	 * {@link JwtGrantedAuthoritiesConverter}.
+	 * 
 	 * @param jwtGrantedAuthoritiesConverter The converter
 	 * @since 5.2
 	 * @see JwtGrantedAuthoritiesConverter
@@ -46,6 +48,7 @@ public class KCJwtAuthenticationConverter implements Converter<Jwt, AbstractAuth
 
 	/**
 	 * Sets the principal claim name. Defaults to {@link JwtClaimNames#SUB}.
+	 * 
 	 * @param principalClaimName The principal claim name
 	 * @since 5.4
 	 */
