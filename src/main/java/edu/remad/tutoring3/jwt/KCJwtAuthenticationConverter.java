@@ -12,6 +12,13 @@ import org.springframework.util.Assert;
 
 import edu.remad.tutoring3.helper.jwt.JwtAuthenticationTokenHelper;
 
+/**
+ * KeyCloak's JSON Web Authentication Token converter maps granted authorities
+ * to roles
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 @Component
 public class KCJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 

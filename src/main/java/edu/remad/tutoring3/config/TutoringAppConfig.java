@@ -10,6 +10,14 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import edu.remad.tutoring3.Tutoring3Application;
+
+/**
+ * Configures WebMvc and is loaded by {@link Tutoring3Application}
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class TutoringAppConfig implements WebMvcConfigurer {
 
 	@Override

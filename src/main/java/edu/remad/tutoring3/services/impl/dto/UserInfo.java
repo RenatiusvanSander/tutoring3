@@ -1,5 +1,11 @@
 package edu.remad.tutoring3.services.impl.dto;
 
+/**
+ * Stores user's information.
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class UserInfo {
 
 	private String sub;
@@ -10,6 +16,9 @@ public class UserInfo {
 	private String family_name;
 	private String email;
 	
+	/**
+	 * @return string-encoded user's keycloak subject
+	 */
 	public String getSub() {
 		return sub;
 	}

@@ -11,41 +11,48 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 import edu.remad.tutoring3.systemenvironment.SystemEnvironment;
 
+/**
+ * Configures connections to MySQL database like {@link MysqlDataSource},
+ * {@link DriverManagerDataSource} and {@link MysqlConnectionPoolDataSource}
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 @Configuration
 public class MySQLDataSourcesConfig {
 
-	@Bean(name="dataSource")
+	@Bean(name = "dataSource")
 	MysqlDataSource dataSource(SystemEnvironment sysEnv) throws SQLException {
-	    MysqlDataSource dataSource = new MysqlDataSource();
-	    dataSource.setDatabaseName("developmenttutoring003");
-	    dataSource.setServerName("127.0.0.1");
-	    dataSource.setPort(3306);
-	    dataSource.setUser(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
-	    dataSource.setPassword(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
-	    dataSource.setServerTimezone("UTC");
-	    dataSource.setURL(sysEnv.getAppDataDevelopmentSourcesMysqlUrl());
-	    
-	    return dataSource;
+		MysqlDataSource dataSource = new MysqlDataSource();
+		dataSource.setDatabaseName("developmenttutoring003");
+		dataSource.setServerName("127.0.0.1");
+		dataSource.setPort(3306);
+		dataSource.setUser(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
+		dataSource.setPassword(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
+		dataSource.setServerTimezone("UTC");
+		dataSource.setURL(sysEnv.getAppDataDevelopmentSourcesMysqlUrl());
+
+		return dataSource;
 	}
-	
+
 	@Bean
 	DriverManagerDataSource mysqlDriverManagerDataSource(SystemEnvironment sysEnv) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(sysEnv.getAppDataDevelopmentSourcesMysqlUrl() + "?serverTimezone=UTC");
-        dataSource.setUsername( sysEnv.getAppDevelopmentDataSourcesMysqlUsername() );
-        dataSource.setPassword( sysEnv.getAppDevelopmentDataSourcesMysqlPassword() );
-        
-        return dataSource;
-    }
-	
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		dataSource.setUrl(sysEnv.getAppDataDevelopmentSourcesMysqlUrl() + "?serverTimezone=UTC");
+		dataSource.setUsername(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
+		dataSource.setPassword(sysEnv.getAppDevelopmentDataSourcesMysqlPassword());
+
+		return dataSource;
+	}
+
 	@Bean
 	MysqlConnectionPoolDataSource mysqlConnectionPoolDataSource(SystemEnvironment sysEnv) {
 		MysqlConnectionPoolDataSource mysqlConnectionPoolDataSource = new MysqlConnectionPoolDataSource();
 		mysqlConnectionPoolDataSource.setUrl(sysEnv.getAppDataDevelopmentSourcesMysqlUrl());
 		mysqlConnectionPoolDataSource.setPassword(sysEnv.getAppDevelopmentDataSourcesMysqlPassword());
 		mysqlConnectionPoolDataSource.setUser(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
-		
+
 		return mysqlConnectionPoolDataSource;
 	}
 }

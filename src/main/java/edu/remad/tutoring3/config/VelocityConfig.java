@@ -13,9 +13,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 
+import edu.remad.tutoring3.Tutoring3Application;
 import edu.remad.tutoring3.velocity.VelocityProperty;
 import edu.remad.tutoring3.velocity.VelocityViewResolver;
 
+/**
+ * Configures VelocityEngine and VelocityView loaded by {@link Tutoring3Application}
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class VelocityConfig {
 
 	@Bean

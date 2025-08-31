@@ -13,6 +13,12 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 
 import com.nimbusds.jose.shaded.gson.internal.LinkedTreeMap;
 
+/**
+ * JSON Authentication Token Helper supports to get all roles and user claims.
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 
 	/** generated serial version UID */
@@ -89,31 +95,49 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 		return getToken().getClaimAsString("name");
 	}
 
+	/**
+	 * Gets scope
+	 * 
+	 * @return list of scope roles
+	 */
 	public List<GrantedAuthority> getScope() {
 		if (scopes != null) {
 			return new ArrayList<>(scopes);
 		}
 
 		String[] claimScopes = getToken().getClaimAsString("scope").split(" ");
-		scopes = Arrays.asList(claimScopes).stream().map(scope -> new SimpleGrantedAuthority("ROLE_" + scope)).map(GrantedAuthority.class::cast).toList();
+		scopes = Arrays.asList(claimScopes).stream().map(scope -> new SimpleGrantedAuthority("ROLE_" + scope))
+				.map(GrantedAuthority.class::cast).toList();
 
 		return new ArrayList<>(scopes);
 	}
 
+	/**
+	 * Gets list of tutoring 3 roles
+	 * 
+	 * @return list of tutoring 3 roles
+	 */
 	public List<GrantedAuthority> getTutoring3Roles() {
 		if (tutoring3Roles != null) {
 			return new ArrayList<>(tutoring3Roles);
 		}
 
 		Map<String, Object> resourceAccess = getToken().getClaimAsMap("resource_access");
-		Map<String, Object> tutoring3ResourceServer = (Map<String, Object>) resourceAccess.get("tutoring2-resource-server");
+		Map<String, Object> tutoring3ResourceServer = (Map<String, Object>) resourceAccess
+				.get("tutoring2-resource-server");
 		List<String> listRoles = (List<String>) tutoring3ResourceServer.get("roles");
 
-		tutoring3Roles = listRoles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).map(GrantedAuthority.class::cast).toList();
+		tutoring3Roles = listRoles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+				.map(GrantedAuthority.class::cast).toList();
 
 		return new ArrayList<>(tutoring3Roles);
 	}
 
+	/**
+	 * Gets Realm Access roles
+	 * 
+	 * @return list of realm access roles
+	 */
 	public List<GrantedAuthority> getRealmAccessRoles() {
 		if (realmAccessRoles != null) {
 			return new ArrayList<>(realmAccessRoles);
@@ -121,11 +145,17 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 
 		Map<String, Object> realmAccess = getToken().getClaimAsMap("realm_access");
 		List<String> roles = (List<String>) realmAccess.get("roles");
-		realmAccessRoles = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).map(GrantedAuthority.class::cast).toList();
+		realmAccessRoles = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+				.map(GrantedAuthority.class::cast).toList();
 
 		return new ArrayList<>(realmAccessRoles);
 	}
 
+	/**
+	 * Gets Account roles
+	 * 
+	 * @return list of account roles
+	 */
 	public List<GrantedAuthority> getAccountRoles() {
 		if (accountRoles != null) {
 			return new ArrayList<>(accountRoles);
@@ -134,7 +164,8 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 		Map<String, Object> resourceAccess = getToken().getClaimAsMap("resource_access");
 		Map<String, Object> account = (LinkedTreeMap<String, Object>) resourceAccess.get("account");
 		List<String> textAccountRoles = (List<String>) account.get("roles");
-		accountRoles = textAccountRoles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).map(GrantedAuthority.class::cast).toList();
+		accountRoles = textAccountRoles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+				.map(GrantedAuthority.class::cast).toList();
 
 		return new ArrayList<>(accountRoles);
 	}

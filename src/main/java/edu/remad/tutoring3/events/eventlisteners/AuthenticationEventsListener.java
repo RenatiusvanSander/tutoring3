@@ -7,6 +7,13 @@ import org.springframework.stereotype.Component;
 
 import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
 
+/**
+ * Listens for events of {@link AuthenticationSuccessEvent} and propagate
+ * created {@link JwtAuthenticationSuccessEvent}
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 @Component
 public class AuthenticationEventsListener {
 

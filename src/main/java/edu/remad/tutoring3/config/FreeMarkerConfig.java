@@ -7,6 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+import edu.remad.tutoring3.Tutoring3Application;
+
+/**
+ * Configures Spring's FreeMarker and loaded by {@link Tutoring3Application}
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class FreeMarkerConfig {
 
     @Bean

@@ -11,6 +11,12 @@ import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
 import edu.remad.tutoring3.services.KeyCloakUserInfoService;
 import edu.remad.tutoring3.services.impl.dto.UserInfo;
 
+/**
+ * Service retrieves user's info {@link UserInfo} from Keycloak and persist that user info, when it is not persisted
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 @Service
 public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 
@@ -29,7 +35,7 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 		UserInfo userInfo = restClient.get().uri("/userinfo").headers(headers -> headers.addAll(multiHeaders))
 				.retrieve().body(UserInfo.class);
 
-		System.out.println(userInfo);
+		boolean isPersisted = findUserAndPersist(userInfo);
 	}
 
 	private MultiValueMap<String, String> getOrCreateMultipleHeaders(JwtAuthenticationSuccessEvent event) {
@@ -46,6 +52,10 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 		multipleHeaders.add(HttpHeaders.CONNECTION, "keep-alive");
 
 		return multipleHeaders;
+	}
+	
+	private boolean findUserAndPersist(UserInfo userInfo) {
+		return false;
 	}
 
 }

@@ -27,6 +27,12 @@ import org.springframework.web.servlet.view.AbstractTemplateView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Velocity's view
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class VelocityView extends AbstractTemplateView {
 
 	private final static String SCREEN_CONTENT_KEY = "screen_content";
@@ -36,6 +42,9 @@ public class VelocityView extends AbstractTemplateView {
 	private VelocityProperty velocityProperty;
 	private EasyFactoryConfiguration toolBoxConfig;
 
+	/**
+	 * @param velocityEngine {@link VelocityEngine} to set
+	 */
 	public void setVelocityEngine(VelocityEngine velocityEngine) {
 		this.velocityEngine = velocityEngine;
 	}
@@ -50,7 +59,7 @@ public class VelocityView extends AbstractTemplateView {
 			velocityProperty = BeanFactoryUtils.beanOfTypeIncludingAncestors(obtainApplicationContext(),
 					VelocityProperty.class, true, false);
 		}
-		
+
 		setExposeSpringMacroHelpers(true);
 		setExposeSessionAttributes(true);
 	}
@@ -70,9 +79,10 @@ public class VelocityView extends AbstractTemplateView {
 	protected void renderMergedTemplateModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		// VelocityEngineUtils.mergeTemplate(velocityEngine, "Template_LOCATION", "UTF-8", model, null);
+		// VelocityEngineUtils.mergeTemplate(velocityEngine, "Template_LOCATION",
+		// "UTF-8", model, null);
 		// is another way to render
-		
+
 		ToolManager tm = new ToolManager();
 		tm.configure(getConfig());
 		tm.setVelocityEngine(velocityEngine);
@@ -98,7 +108,7 @@ public class VelocityView extends AbstractTemplateView {
 			}
 			layoutUrlToUse = layoutUrl;
 		}
-		
+
 		Template template = getTemplate(layoutUrlToUse);
 		response.setCharacterEncoding("UTF-8");
 		template.merge(context, response.getWriter());

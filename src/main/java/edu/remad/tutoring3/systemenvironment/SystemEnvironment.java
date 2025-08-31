@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Reads system environment and offers them to app environment
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class SystemEnvironment {
 
 	private final Map<String, String> properties;
@@ -27,7 +33,7 @@ public class SystemEnvironment {
 	public String getAppUser() {
 		return properties.get("TUTOR_USER");
 	}
-	
+
 	public String getAppStage() {
 		return properties.get("TUTOR_STAGE");
 	}
@@ -55,7 +61,7 @@ public class SystemEnvironment {
 	public String getAppDataSourcesMysqlPassword() {
 		return properties.get("TUTORING3_DATA_SOURCES_MYSQL_PASSWORD");
 	}
-	
+
 	public String getAppDataDevelopmentSourcesMysqlUrl() {
 		return properties.get("TUTORING3_DEVELOPMENT_DATA_SOURCES_MYSQL_URL");
 	}
@@ -63,7 +69,7 @@ public class SystemEnvironment {
 	public String getAppDevelopmentDataSourcesMysqlUsername() {
 		return properties.get("TUTORING3_DEVELOPMENT_DATA_SOURCES_MYSQL_USERNAME");
 	}
-	
+
 	public String getAppDevelopmentDataSourcesMysqlPassword() {
 		return properties.get("TUTORING3_DEVELOPMENT_DATA_SOURCES_MYSQL_PASSWORD");
 	}
@@ -71,7 +77,7 @@ public class SystemEnvironment {
 	public Map<String, String> getProperties() {
 		return new HashMap<String, String>(properties);
 	}
-	
+
 	public void printSystemEnvironments() {
 		System.out.println(
 				"#######################################################################################################");
