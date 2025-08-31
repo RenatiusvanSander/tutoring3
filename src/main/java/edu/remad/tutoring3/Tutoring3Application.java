@@ -8,19 +8,25 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import edu.remad.tutoring3.config.FreeMarkerConfig;
 import edu.remad.tutoring3.config.Tutoring3BeanConfig;
 import edu.remad.tutoring3.config.TutoringAppConfig;
 import edu.remad.tutoring3.config.VelocityConfig;
 
+/**
+ * Tutoring 3 Application main class
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 @SpringBootApplication
-@Import({VelocityConfig.class, TutoringAppConfig.class, FreeMarkerConfig.class, Tutoring3BeanConfig.class})
+@Import({ VelocityConfig.class, TutoringAppConfig.class, FreeMarkerConfig.class, Tutoring3BeanConfig.class })
 public class Tutoring3Application extends SpringBootServletInitializer {
-	
+
 	/**
-	 * Starts the Spring Boot 3 Tutoring 3 Application and prints all Spring Beans of Context
+	 * Starts the Spring Boot 3 Tutoring 3 Application and prints all Spring Beans
+	 * of Context
 	 * 
 	 * @param arguments arguments to start with
 	 */
@@ -35,10 +41,10 @@ public class Tutoring3Application extends SpringBootServletInitializer {
 			System.out.println("Initialized Bean into Spring Boot Context: " + beanName);
 		}
 	}
-	
+
 	@Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Tutoring3Application.class);
-    }
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(Tutoring3Application.class);
+	}
 
 }

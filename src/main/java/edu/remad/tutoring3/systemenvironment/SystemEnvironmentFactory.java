@@ -2,10 +2,15 @@ package edu.remad.tutoring3.systemenvironment;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.naming.OperationNotSupportedException;
 
+/**
+ * Factory produces system environment for app.
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 public class SystemEnvironmentFactory {
 
 	private static SystemEnvironment SYSTEM_ENVIRONMENT;
@@ -15,6 +20,9 @@ public class SystemEnvironmentFactory {
 		throw new OperationNotSupportedException("You shall not craete such instance!");
 	}
 
+	/**
+	 * @return {@link SystemEnvironment}
+	 */
 	public static SystemEnvironment getInstance() {
 		if (SYSTEM_ENVIRONMENT == null) {
 			SYSTEM_ENVIRONMENT = createSystemEnvironment();
@@ -51,6 +59,9 @@ public class SystemEnvironmentFactory {
 		return systemEnvironment;
 	}
 
+	/**
+	 * @return string encoded info
+	 */
 	public static String getInfo() {
 		return info;
 	}

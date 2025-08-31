@@ -15,6 +15,12 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 import jakarta.persistence.EntityManagerFactory;
 
+/**
+ * Configures entity manager factory, PlatformTransactionManager and LocalContainerEntityManagerFactoryBean for Transaction Management
+ * 
+ * @author edu.remad
+ * @since 2025
+ */
 @Configuration
 @EnableJpaRepositories
 @EnableTransactionManagement
