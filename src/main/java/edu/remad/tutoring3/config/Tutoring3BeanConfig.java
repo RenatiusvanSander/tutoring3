@@ -1,6 +1,11 @@
 package edu.remad.tutoring3.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import edu.remad.tutoring3.Tutoring3Application;
 import edu.remad.tutoring3.profiles.ProfileManager;
@@ -29,6 +34,20 @@ public class Tutoring3BeanConfig {
 		}
 		
 		return systemEnv;
+	}
+	
+	@Bean
+	UrlBasedCorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration cors = new CorsConfiguration();
+		cors.setAllowedOrigins(Arrays.asList("https://localhost:4200"));
+		cors.setAllowedMethods(Arrays.asList("GET","POST", "HEAD", "OPTIONS", "PUT", "DELETE", "ATTACH"));
+		cors.setAllowedHeaders(List.of("*"));
+		cors.setAllowCredentials(true);
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/api/**", cors);
+		
+		return source;
 	}
 	
 }

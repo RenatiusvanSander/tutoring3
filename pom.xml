@@ -125,6 +125,13 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<version>9.4.0</version>
 		</dependency>
+		
+		<!-- own implementations -->
+		<dependency>
+			<groupId>edu.remad</groupId>
+			<artifactId>tutoring3-models</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
