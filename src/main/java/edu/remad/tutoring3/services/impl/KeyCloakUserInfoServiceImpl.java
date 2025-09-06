@@ -1,5 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
+import java.time.LocalDateTime;
+
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
+import edu.remad.tutoring3.persistence.models.UserEntity;
+import edu.remad.tutoring3.repositories.UserEntityRepository;
 import edu.remad.tutoring3.services.KeyCloakUserInfoService;
+import edu.remad.tutoring3.services.UserEntityService;
 import edu.remad.tutoring3.services.impl.dto.UserInfo;
 
 /**
@@ -22,10 +27,12 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 
 	private RestClient restClient;
 	private MultiValueMap<String, String> multipleHeaders;
+	private UserEntityService userService;
 
-	public KeyCloakUserInfoServiceImpl(RestClient.Builder restClientBuilder) {
+	public KeyCloakUserInfoServiceImpl(RestClient.Builder restClientBuilder, UserEntityService userEntityRepository) {
 		this.restClient = restClientBuilder
 				.baseUrl("https://keycloak.local:8443/realms/ConnectTrial/protocol/openid-connect").build();
+		userService = userEntityRepository;
 	}
 
 	@Override
@@ -55,7 +62,18 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 	}
 	
 	private boolean findUserAndPersist(UserInfo userInfo) {
-		return false;
+		UserEntity user = new UserEntity();
+		user.setCreationDate(LocalDateTime.now());
+		user.setEmail(userInfo.getEmail());
+		user.setEmailVerified(userInfo.getEmail_verified() != null);
+		user.setFamilyName(userInfo.getFamily_name());
+		user.setGivenName(userInfo.getGiven_name());
+		user.setName(userInfo.getName());
+		user.setPreferredUsername(userInfo.getPreferred_username());
+		user.setSub(userInfo.getSub());
+		user.setUserId(userInfo.getSub());
+		
+		return userService.saveUserEntity(user) != null;
 	}
 
 }

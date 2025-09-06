@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/velocity")
 public class VelocityDemoController {
 	
+	/**
+	 * @return string-encoded name of default velocity template
+	 */
 	@GetMapping("/index")
 	public String index() {
 		return "Default";

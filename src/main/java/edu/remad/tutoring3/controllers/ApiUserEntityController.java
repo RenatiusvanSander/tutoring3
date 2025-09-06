@@ -12,7 +12,7 @@ import edu.remad.tutoring3.persistence.models.UserEntity;
 import edu.remad.tutoring3.services.UserEntityService;
 
 /**
- * Controlls API REST Endpoints for users 
+ * Controls API REST Endpoints for users 
  * 
  * @author edu.remad
  * @since 2025
@@ -21,16 +21,31 @@ import edu.remad.tutoring3.services.UserEntityService;
 @RestController
 public class ApiUserEntityController {
 	
+	/**
+	 * user service
+	 */
 	private final UserEntityService userService;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param userEntityService {@link UserEntityService}
+	 */
 	public ApiUserEntityController(UserEntityService userEntityService) {
 		userService = userEntityService;
 	}
 
+	/**
+	 * Gets a suer by id
+	 * 
+	 * @param id Identifier to find a user
+	 * @return {@link UserEntity}
+	 */
 	@GetMapping(value = "/get-users/by-user-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserEntity> getUserById(@PathVariable("id") String id) {
-		UserEntity user = new UserEntity();
+		UserEntity user = userService.getUserEntityById(id);
 		
 		return new ResponseEntity<>(user, HttpStatusCode.valueOf(200));
 	}
+	
 }
