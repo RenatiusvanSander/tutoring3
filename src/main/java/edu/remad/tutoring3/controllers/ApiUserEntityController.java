@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.remad.tutoring3.persistence.models.UserEntity;
+import edu.remad.tutoring3.model.UserEntity;
 import edu.remad.tutoring3.services.UserEntityService;
 
 /**

@@ -1,6 +1,6 @@
 package edu.remad.tutoring3.services;
 
-import edu.remad.tutoring3.persistence.models.UserEntity;
+import edu.remad.tutoring3.model.UserEntity;
 
 /**
  * Defines methods for implementation of this interface

@@ -8,8 +8,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import edu.remad.tutoring3.config.FreeMarkerConfig;
+import edu.remad.tutoring3.config.TransactionManagementConfig;
 import edu.remad.tutoring3.config.Tutoring3BeanConfig;
 import edu.remad.tutoring3.config.TutoringAppConfig;
 import edu.remad.tutoring3.config.VelocityConfig;
@@ -17,11 +19,14 @@ import edu.remad.tutoring3.config.VelocityConfig;
 /**
  * Tutoring 3 Application main class
  * 
+ * for entity class paths {@link TransactionManagementConfig}
+ * 
  * @author edu.remad
  * @since 2025
  */
 @SpringBootApplication
 @Import({ VelocityConfig.class, TutoringAppConfig.class, FreeMarkerConfig.class, Tutoring3BeanConfig.class })
+@EnableJpaRepositories(basePackages = "edu.remad.tutoring3.repositories")
 public class Tutoring3Application extends SpringBootServletInitializer {
 
 	/**

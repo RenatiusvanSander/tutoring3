@@ -39,7 +39,7 @@ public class Tutoring3BeanConfig {
 	@Bean
 	UrlBasedCorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration cors = new CorsConfiguration();
-		cors.setAllowedOrigins(Arrays.asList("https://localhost:4200"));
+		cors.setAllowedOrigins(Arrays.asList("https://localhost:4200","https://localhost:8082"));
 		cors.setAllowedMethods(Arrays.asList("GET","POST", "HEAD", "OPTIONS", "PUT", "DELETE", "ATTACH"));
 		cors.setAllowedHeaders(List.of("*"));
 		cors.setAllowCredentials(true);

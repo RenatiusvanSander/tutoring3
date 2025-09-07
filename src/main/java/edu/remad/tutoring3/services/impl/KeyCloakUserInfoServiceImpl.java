@@ -10,7 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
-import edu.remad.tutoring3.persistence.models.UserEntity;
+import edu.remad.tutoring3.model.UserEntity;
 import edu.remad.tutoring3.repositories.UserEntityRepository;
 import edu.remad.tutoring3.services.KeyCloakUserInfoService;
 import edu.remad.tutoring3.services.UserEntityService;

@@ -25,10 +25,10 @@ public class MySQLDataSourcesConfig {
 	MysqlDataSource dataSource(SystemEnvironment sysEnv) throws SQLException {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		dataSource.setDatabaseName("developmenttutoring003");
-		dataSource.setServerName("127.0.0.1");
+		dataSource.setServerName("localhost");
 		dataSource.setPort(3306);
 		dataSource.setUser(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
-		dataSource.setPassword(sysEnv.getAppDevelopmentDataSourcesMysqlUsername());
+		dataSource.setPassword(sysEnv.getAppDevelopmentDataSourcesMysqlPassword());
 		dataSource.setServerTimezone("UTC");
 		dataSource.setURL(sysEnv.getAppDataDevelopmentSourcesMysqlUrl());
 

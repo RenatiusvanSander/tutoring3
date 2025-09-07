@@ -1,10 +1,13 @@
 package edu.remad.tutoring3.config;
 
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -16,13 +19,13 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import jakarta.persistence.EntityManagerFactory;
 
 /**
- * Configures entity manager factory, PlatformTransactionManager and LocalContainerEntityManagerFactoryBean for Transaction Management
+ * Configures entity manager factory, PlatformTransactionManager and
+ * LocalContainerEntityManagerFactoryBean for Transaction Management
  * 
  * @author edu.remad
  * @since 2025
  */
 @Configuration
-@EnableJpaRepositories
 @EnableTransactionManagement
 public class TransactionManagementConfig {
 
@@ -32,12 +35,29 @@ public class TransactionManagementConfig {
 	}
 
 	@Bean
-	LocalContainerEntityManagerFactoryBean entityManagerFactory(MysqlDataSource dataSource, EntityManagerFactoryBuilder builder) {
+	LocalContainerEntityManagerFactoryBean entityManagerFactory(MysqlDataSource dataSource,
+			EntityManagerFactoryBuilder builder) {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(true);
 
-		return builder.dataSource(dataSource).packages("edu.remad.tutoring3.model").persistenceUnit("developmentTutoring3")
-				.build();
+		LocalContainerEntityManagerFactoryBean entityManagerFactory = builder.dataSource(dataSource)
+				.packages("edu.remad.tutoring3.model", "edu.remad.tutoring3.persistence.models")
+				.persistenceUnit("developmentTutoring3").build();
+		entityManagerFactory.setJpaProperties(additionalProperties());
+
+		return entityManagerFactory;
+	}
+
+	private final Properties additionalProperties() {
+		final Properties hibernateProperties = new Properties();
+		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
+		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+		hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", "false");
+		hibernateProperties.setProperty("hibernate.cache.use_query_cache", "false");
+		hibernateProperties.setProperty("hibernate.show_sql", "true");
+		hibernateProperties.setProperty("hibernate.format_sql", "true");
+
+		return hibernateProperties;
 	}
 
 	@Bean
