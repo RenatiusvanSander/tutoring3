@@ -144,6 +144,11 @@
 		</dependency>
 		
 		<!-- own implementations -->
+		<dependency>
+			<groupId>edu.remad</groupId>
+			<artifactId>tutoring3-models</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
