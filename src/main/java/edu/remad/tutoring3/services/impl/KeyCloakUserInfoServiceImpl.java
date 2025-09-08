@@ -2,6 +2,7 @@ package edu.remad.tutoring3.services.impl;
 
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -11,13 +12,13 @@ import org.springframework.web.client.RestClient;
 
 import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
 import edu.remad.tutoring3.persistence.models.UserEntity;
-import edu.remad.tutoring3.repositories.UserEntityRepository;
 import edu.remad.tutoring3.services.KeyCloakUserInfoService;
 import edu.remad.tutoring3.services.UserEntityService;
-import edu.remad.tutoring3.services.impl.dto.UserInfo;
+import edu.remad.tutoring3.dto.UserInfo;
 
 /**
- * Service retrieves user's info {@link UserInfo} from Keycloak and persist that user info, when it is not persisted
+ * Service retrieves user's info {@link UserInfo} from Keycloak and persist that
+ * user info, when it is not persisted
  * 
  * @author edu.remad
  * @since 2025
@@ -43,6 +44,7 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 				.retrieve().body(UserInfo.class);
 
 		boolean isPersisted = findUserAndPersist(userInfo);
+		System.out.println("User ist persisted: " + isPersisted);
 	}
 
 	private MultiValueMap<String, String> getOrCreateMultipleHeaders(JwtAuthenticationSuccessEvent event) {
@@ -60,20 +62,17 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 
 		return multipleHeaders;
 	}
-	
+
 	private boolean findUserAndPersist(UserInfo userInfo) {
-		UserEntity user = new UserEntity();
-		user.setCreationDate(LocalDateTime.now());
-		user.setEmail(userInfo.getEmail());
-		user.setEmailVerified(userInfo.getEmail_verified() != null);
-		user.setFamilyName(userInfo.getFamily_name());
-		user.setGivenName(userInfo.getGiven_name());
-		user.setName(userInfo.getName());
-		user.setPreferredUsername(userInfo.getPreferred_username());
-		user.setSub(userInfo.getSub());
-		user.setUserId(userInfo.getSub());
-		
-		return userService.saveUserEntity(user) != null;
+		if (userService.getUserEntityById(userInfo.getSub()) != null) {
+			return true;
+		}
+
+		try {
+			return userService.saveUserEntity(new UserEntity(userInfo)) != null;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }
