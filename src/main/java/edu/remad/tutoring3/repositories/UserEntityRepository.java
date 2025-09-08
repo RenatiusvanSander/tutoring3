@@ -3,7 +3,7 @@ package edu.remad.tutoring3.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import edu.remad.tutoring3.model.UserEntity;
+import edu.remad.tutoring3.persistence.models.UserEntity;
 
 /**
  * Repo for users

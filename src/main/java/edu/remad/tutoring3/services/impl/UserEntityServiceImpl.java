@@ -2,7 +2,7 @@ package edu.remad.tutoring3.services.impl;
 
 import org.springframework.stereotype.Service;
 
-import edu.remad.tutoring3.model.UserEntity;
+import edu.remad.tutoring3.persistence.models.UserEntity;
 import edu.remad.tutoring3.repositories.UserEntityRepository;
 import edu.remad.tutoring3.services.UserEntityService;
 
