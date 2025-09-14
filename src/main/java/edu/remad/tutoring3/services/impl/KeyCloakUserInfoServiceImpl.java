@@ -1,8 +1,5 @@
 package edu.remad.tutoring3.services.impl;
 
-import java.time.LocalDateTime;
-
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -10,11 +7,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import edu.remad.tutoring3.dto.UserInfo;
 import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
 import edu.remad.tutoring3.persistence.models.UserEntity;
 import edu.remad.tutoring3.services.KeyCloakUserInfoService;
 import edu.remad.tutoring3.services.UserEntityService;
-import edu.remad.tutoring3.dto.UserInfo;
 
 /**
  * Service retrieves user's info {@link UserInfo} from Keycloak and persist that
@@ -44,7 +41,6 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 				.retrieve().body(UserInfo.class);
 
 		boolean isPersisted = findUserAndPersist(userInfo);
-		System.out.println("User ist persisted: " + isPersisted);
 	}
 
 	private MultiValueMap<String, String> getOrCreateMultipleHeaders(JwtAuthenticationSuccessEvent event) {
@@ -64,15 +60,11 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 	}
 
 	private boolean findUserAndPersist(UserInfo userInfo) {
-		if (userService.getUserEntityById(userInfo.getSub()) != null) {
+		if (userService.getUserEntityBySub(userInfo.getSub()).getSub().equals(userInfo.getSub())) {
 			return true;
 		}
 
-		try {
-			return userService.saveUserEntity(new UserEntity(userInfo)) != null;
-		} catch (Exception e) {
-			return false;
-		}
+		return userService.saveUserEntity(new UserEntity(userInfo)) != null;
 	}
 
 }

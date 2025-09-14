@@ -19,11 +19,19 @@ public interface UserEntityService {
 	UserEntity saveUserEntity(UserEntity user);
 	
 	/**
+	 * Gets user by sub
+	 * 
+	 * @param sub user's id
+	 * @return matching user as {@link UserEntity}
+	 */
+	UserEntity getUserEntityBySub(String sub);
+	
+	/**
 	 * Gets user by id
 	 * 
 	 * @param id user's id
 	 * @return matching user as {@link UserEntity}
 	 */
-	UserEntity getUserEntityById(String id);
+	UserEntity getUserEntityById(Long id);
 
 }

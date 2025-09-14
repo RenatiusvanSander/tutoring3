@@ -1,6 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.remad.tutoring3.persistence.models.UserEntity;
 import edu.remad.tutoring3.repositories.UserEntityRepository;
@@ -13,6 +14,7 @@ import edu.remad.tutoring3.services.UserEntityService;
  * @since 2025
  */
 @Service
+@Transactional
 public class UserEntityServiceImpl implements UserEntityService {
 
 	/** user entity repository to do persistence actions */
@@ -29,11 +31,16 @@ public class UserEntityServiceImpl implements UserEntityService {
 	
 	@Override
 	public UserEntity saveUserEntity(UserEntity user) {
-		return userEntityRepository.saveAndFlush(user);
+		return userEntityRepository.save(user);
 	}
 
 	@Override
-	public UserEntity getUserEntityById(String id) {
+	public UserEntity getUserEntityBySub(String sub) {
+		return userEntityRepository.findBySub(sub);
+	}
+
+	@Override
+	public UserEntity getUserEntityById(Long id) {
 		return userEntityRepository.getReferenceById(id);
 	}
 

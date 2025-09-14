@@ -12,6 +12,8 @@ import edu.remad.tutoring3.persistence.models.UserEntity;
  * @since 2025
  */
 @Repository
-public interface UserEntityRepository extends JpaRepository<UserEntity, String> {
+public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
+
+	UserEntity findBySub(String sub);
 
 }

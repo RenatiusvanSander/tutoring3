@@ -42,7 +42,7 @@ public class ApiUserEntityController {
 	 * @return {@link UserEntity}
 	 */
 	@GetMapping(value = "/get-users/by-user-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserEntity> getUserById(@PathVariable("id") String id) {
+	public ResponseEntity<UserEntity> getUserById(@PathVariable("id") Long id) {
 		UserEntity user = userService.getUserEntityById(id);
 		
 		return new ResponseEntity<>(user, HttpStatusCode.valueOf(200));

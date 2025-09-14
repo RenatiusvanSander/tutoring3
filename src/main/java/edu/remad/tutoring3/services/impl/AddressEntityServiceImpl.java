@@ -1,6 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.remad.tutoring3.repositories.AddressEntityRepository;
 import edu.remad.tutoring3.services.AddressEntityService;
@@ -12,6 +13,7 @@ import edu.remad.tutoring3.services.AddressEntityService;
  * @since 2025
  */
 @Service
+@Transactional
 public class AddressEntityServiceImpl implements AddressEntityService {
 
 	/**
