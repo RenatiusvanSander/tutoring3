@@ -13,7 +13,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import edu.remad.tutoring3.jwt.KCJwtAuthenticationConverter;
 
 /**
- * Configures security filter chain OAuth2 ResourceServer with order 1 and unauthorized filter chain for all that is not part of REST APIs
+ * Configures security filter chain OAuth2 ResourceServer with order 1 and
+ * unauthorized filter chain for all that is not part of REST APIs
  * 
  * @author edu.remad
  * @since 2025
@@ -21,7 +22,7 @@ import edu.remad.tutoring3.jwt.KCJwtAuthenticationConverter;
 @Configuration
 @EnableWebSecurity
 public class SecurityOAuth2ResourceServer {
-	
+
 	@Autowired
 	KCJwtAuthenticationConverter jwtConvert;
 

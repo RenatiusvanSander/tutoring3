@@ -20,8 +20,6 @@ import edu.remad.tutoring3.config.VelocityConfig;
 /**
  * Tutoring 3 Application main class
  * 
- * for entity class paths {@link TransactionManagementConfig}
- * 
  * @author edu.remad
  * @since 2025
  */

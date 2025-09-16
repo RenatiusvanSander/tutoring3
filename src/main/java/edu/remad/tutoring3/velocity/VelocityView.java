@@ -64,6 +64,12 @@ public class VelocityView extends AbstractTemplateView {
 		setExposeSessionAttributes(true);
 	}
 
+	/**
+	 * Auto detects VelocityEngine
+	 * 
+	 * @return{@link VelocityEngine}
+	 * @throws BeansException
+	 */
 	protected VelocityEngine autodetectVelocityEngine() throws BeansException {
 		try {
 			return BeanFactoryUtils.beanOfTypeIncludingAncestors(obtainApplicationContext(), VelocityEngine.class, true,
@@ -78,10 +84,6 @@ public class VelocityView extends AbstractTemplateView {
 	@Override
 	protected void renderMergedTemplateModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
-		// VelocityEngineUtils.mergeTemplate(velocityEngine, "Template_LOCATION",
-		// "UTF-8", model, null);
-		// is another way to render
 
 		ToolManager tm = new ToolManager();
 		tm.configure(getConfig());

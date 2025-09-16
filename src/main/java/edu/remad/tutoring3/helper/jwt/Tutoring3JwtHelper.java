@@ -11,10 +11,13 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
  */
 public final class Tutoring3JwtHelper {
 
+	/**
+	 * private Constructor for not creating any instances
+	 */
 	private Tutoring3JwtHelper() {
 		// do not instantiate
 	}
-	
+
 	/**
 	 * Gets Bearer Token
 	 * 
@@ -23,8 +26,8 @@ public final class Tutoring3JwtHelper {
 	 */
 	public static String getAccessToken(JwtAuthenticationToken jwtAuthenticationToken) {
 		Jwt principal = (Jwt) jwtAuthenticationToken.getPrincipal();
-		
+
 		return principal.getTokenValue();
 	}
-	
+
 }

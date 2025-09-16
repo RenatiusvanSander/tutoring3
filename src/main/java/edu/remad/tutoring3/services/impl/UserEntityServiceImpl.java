@@ -1,5 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +43,10 @@ public class UserEntityServiceImpl implements UserEntityService {
 
 	@Override
 	public UserEntity getUserEntityById(Long id) {
-		return userEntityRepository.getReferenceById(id);
+		Optional<UserEntity> optional = userEntityRepository.findById(id);
+		UserEntity loadedUser = optional.get();
+		
+		return loadedUser;
 	}
 
 }

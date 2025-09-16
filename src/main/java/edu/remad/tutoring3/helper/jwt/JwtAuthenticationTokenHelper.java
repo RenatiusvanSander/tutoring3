@@ -67,30 +67,53 @@ public class JwtAuthenticationTokenHelper extends JwtAuthenticationToken {
 		this.setAuthenticated(true);
 	}
 
+	/**
+	 * Gets sub
+	 * 
+	 * @return sub
+	 */
 	public String getSub() {
 		return getToken().getSubject();
 	}
 
+	/**
+	 * @return {@code true} for email is verified. Otherwise {@link false}
+	 */
 	public boolean isEmailVerified() {
 		return getToken().getClaimAsBoolean("email_verified").booleanValue();
 	}
 
+	/**
+	 * @return preferred username
+	 */
 	public String getPreferredUsername() {
 		return getToken().getClaimAsString("preferred_username");
 	}
 
+	/**
+	 * @return given name
+	 */
 	public String getGiven_name() {
 		return getToken().getClaimAsString("given_name");
 	}
 
+	/**
+	 * @return family name
+	 */
 	public String getFamily_name() {
 		return getToken().getClaimAsString("family_name");
 	}
 
+	/**
+	 * @return e-mail
+	 */
 	public String getEmail() {
 		return getToken().getClaimAsString("email");
 	}
 
+	/**
+	 * @return fullname
+	 */
 	public String getFullName() {
 		return getToken().getClaimAsString("name");
 	}
