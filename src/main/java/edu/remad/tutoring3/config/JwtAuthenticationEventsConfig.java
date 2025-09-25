@@ -15,9 +15,8 @@ import org.springframework.security.authentication.DefaultAuthenticationEventPub
 @Configuration
 public class JwtAuthenticationEventsConfig {
 
-    @Bean
-    AuthenticationEventPublisher authenticationEventPublisher
-            (ApplicationEventPublisher applicationEventPublisher) {
-	    return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
+	@Bean
+	AuthenticationEventPublisher authenticationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
 	}
 }

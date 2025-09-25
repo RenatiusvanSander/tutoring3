@@ -17,9 +17,15 @@ import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
 @Component
 public class AuthenticationEventsListener {
 
+	/**
+	 * Listens on events of type {@link AuthenticationSuccessEvent}
+	 * 
+	 * @param successfulAuthenticated {@link AuthenticationSuccessEvent}
+	 * @return{@link JwtAuthenticationSuccessEvent}
+	 */
 	@EventListener(classes = AuthenticationSuccessEvent.class)
-	public JwtAuthenticationSuccessEvent onSuccess(AuthenticationSuccessEvent success) {
-		return new JwtAuthenticationSuccessEvent((JwtAuthenticationToken) success.getAuthentication());
+	public JwtAuthenticationSuccessEvent onSuccess(AuthenticationSuccessEvent successfulAuthenticated) {
+		return new JwtAuthenticationSuccessEvent((JwtAuthenticationToken) successfulAuthenticated.getAuthentication());
 	}
 
 }

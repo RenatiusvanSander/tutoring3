@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ApiTestController {
 
+	/**
+	 * @return JSON string-encoded value.
+	 */
 	@GetMapping("/test")
 	public String test() {
 		return "sadsadsa";

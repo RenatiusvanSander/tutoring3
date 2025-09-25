@@ -4,10 +4,13 @@ import java.util.Arrays;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import edu.remad.tutoring3.config.FreeMarkerConfig;
 import edu.remad.tutoring3.config.Tutoring3BeanConfig;
@@ -22,6 +25,9 @@ import edu.remad.tutoring3.config.VelocityConfig;
  */
 @SpringBootApplication
 @Import({ VelocityConfig.class, TutoringAppConfig.class, FreeMarkerConfig.class, Tutoring3BeanConfig.class })
+@EnableJpaRepositories(basePackages = "edu.remad.tutoring3.repositories")
+@EntityScan("edu.remad.tutoring3.persistence.models")
+@EnableTransactionManagement
 public class Tutoring3Application extends SpringBootServletInitializer {
 
 	/**

@@ -11,5 +11,8 @@ import edu.remad.tutoring3.services.impl.KeyCloakUserInfoServiceImpl;
  */
 public interface KeyCloakUserInfoService {
 
+	/**
+	 * @param jwtAuthenticationSuccessEvent {@link JwtAuthenticationSuccessEvent}
+	 */
 	void listenJwtAuthenticationTokenEventAndProcess(JwtAuthenticationSuccessEvent jwtAuthenticationSuccessEvent);
 }

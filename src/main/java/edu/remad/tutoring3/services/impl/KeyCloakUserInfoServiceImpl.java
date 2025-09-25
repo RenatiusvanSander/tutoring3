@@ -7,12 +7,16 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import edu.remad.tutoring3.dto.UserInfo;
 import edu.remad.tutoring3.events.jwt.JwtAuthenticationSuccessEvent;
+import edu.remad.tutoring3.helper.jwt.JwtAuthenticationTokenHelper;
+import edu.remad.tutoring3.persistence.models.UserEntity;
 import edu.remad.tutoring3.services.KeyCloakUserInfoService;
-import edu.remad.tutoring3.services.impl.dto.UserInfo;
+import edu.remad.tutoring3.services.UserEntityService;
 
 /**
- * Service retrieves user's info {@link UserInfo} from Keycloak and persist that user info, when it is not persisted
+ * Service retrieves user's info {@link UserInfo} from Keycloak and persist that
+ * user info, when it is not persisted
  * 
  * @author edu.remad
  * @since 2025
@@ -22,20 +26,29 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 
 	private RestClient restClient;
 	private MultiValueMap<String, String> multipleHeaders;
+	private UserEntityService userService;
 
-	public KeyCloakUserInfoServiceImpl(RestClient.Builder restClientBuilder) {
+	/**
+	 * Constructor
+	 * 
+	 * @param restClientBuilder    {@link RestClient.Builder}
+	 * @param userEntityRepository {@link UserEntityService}
+	 */
+	public KeyCloakUserInfoServiceImpl(RestClient.Builder restClientBuilder, UserEntityService userEntityRepository) {
 		this.restClient = restClientBuilder
 				.baseUrl("https://keycloak.local:8443/realms/ConnectTrial/protocol/openid-connect").build();
+		userService = userEntityRepository;
 	}
 
 	@Override
 	@EventListener(classes = JwtAuthenticationSuccessEvent.class)
 	public void listenJwtAuthenticationTokenEventAndProcess(JwtAuthenticationSuccessEvent event) {
-		MultiValueMap<String, String> multiHeaders = getOrCreateMultipleHeaders(event);
-		UserInfo userInfo = restClient.get().uri("/userinfo").headers(headers -> headers.addAll(multiHeaders))
-				.retrieve().body(UserInfo.class);
-
-		boolean isPersisted = findUserAndPersist(userInfo);
+		if (!isUserFound((JwtAuthenticationTokenHelper) event.getAuthentication())) {
+			MultiValueMap<String, String> multiHeaders = getOrCreateMultipleHeaders(event);
+			UserInfo userInfo = restClient.get().uri("/userinfo").headers(headers -> headers.addAll(multiHeaders))
+					.retrieve().body(UserInfo.class);
+			userService.saveUserEntity(new UserEntity(userInfo));
+		}
 	}
 
 	private MultiValueMap<String, String> getOrCreateMultipleHeaders(JwtAuthenticationSuccessEvent event) {
@@ -53,9 +66,9 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 
 		return multipleHeaders;
 	}
-	
-	private boolean findUserAndPersist(UserInfo userInfo) {
-		return false;
+
+	private boolean isUserFound(JwtAuthenticationTokenHelper jwtHelper) {
+		return userService.getUserEntityBySub(jwtHelper.getSub()).getSub().equals(jwtHelper.getSub());
 	}
 
 }
