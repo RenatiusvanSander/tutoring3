@@ -44,9 +44,8 @@ public class ApiUserEntityController {
 	@GetMapping("/get-users/by-user-id/{id}")
 	public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
 		UserEntity user = userService.getUserEntityById(id);
-		UserDto userDto = new UserDto(user);
 
-		return new ResponseEntity<>(userDto, HttpStatusCode.valueOf(200));
+		return new ResponseEntity<>(new UserDto(user), HttpStatusCode.valueOf(200));
 	}
 
 	/**
@@ -59,9 +58,8 @@ public class ApiUserEntityController {
 	public ResponseEntity<UserDto> getUserViaSub(Authentication authentication) {
 		JwtAuthenticationTokenHelper jwtHelper = (JwtAuthenticationTokenHelper) authentication;
 		UserEntity user = userService.getUserEntityBySub(jwtHelper.getSub());
-		UserDto userDto = new UserDto(user);
 
-		return new ResponseEntity<>(userDto, HttpStatusCode.valueOf(200));
+		return new ResponseEntity<>(new UserDto(user), HttpStatusCode.valueOf(200));
 	}
 
 }

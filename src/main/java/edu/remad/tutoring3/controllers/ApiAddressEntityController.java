@@ -81,7 +81,7 @@ public class ApiAddressEntityController {
 
 		return new ResponseEntity<>(savedAddressDto, HttpStatusCode.valueOf(201));
 	}
-	
+
 	/**
 	 * Updates an address
 	 * 
@@ -95,10 +95,10 @@ public class ApiAddressEntityController {
 		loadedAddress.setAddressHouseNo(addressDto.getAddressHouseNo());
 		loadedAddress.setAddressStreet(addressDto.getAddressStreet());
 		loadedAddress.setPlace(addressDto.getPlace());
-		
+
 		AddressEntity updatedAddress = addressService.saveAddress(loadedAddress);
 		AddressDto updatedAddressDto = new AddressDto(updatedAddress);
-		
+
 		return new ResponseEntity<>(updatedAddressDto, HttpStatusCode.valueOf(200));
 	}
 
@@ -115,7 +115,7 @@ public class ApiAddressEntityController {
 
 		return new ResponseEntity<>(addressDto, HttpStatusCode.valueOf(200));
 	}
-	
+
 	/**
 	 * Deletes address
 	 * 
@@ -127,7 +127,7 @@ public class ApiAddressEntityController {
 		AddressEntity bufferAddress = addressService.findByAddressId(id);
 		addressService.deleteAddressById(id);
 		AddressDto addressDto = new AddressDto(bufferAddress);
-		
+
 		return new ResponseEntity<>(addressDto, HttpStatusCode.valueOf(200));
 	}
 }

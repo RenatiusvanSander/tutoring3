@@ -43,8 +43,14 @@ public class UserEntityServiceImpl implements UserEntityService {
 
 	@Override
 	public UserEntity getUserEntityById(Long id) {
-		Optional<UserEntity> optional = userEntityRepository.findById(id);
-		UserEntity loadedUser = optional.get();
+		UserEntity loadedUser = userEntityRepository.findById(id).get();
+		
+		return loadedUser;
+	}
+	
+	@Override
+	public UserEntity getReferencedUserEntityById(Long id) {
+		UserEntity loadedUser = userEntityRepository.getReferenceById(id);
 		
 		return loadedUser;
 	}

@@ -68,7 +68,11 @@ public class KeyCloakUserInfoServiceImpl implements KeyCloakUserInfoService {
 	}
 
 	private boolean isUserFound(JwtAuthenticationTokenHelper jwtHelper) {
-		return userService.getUserEntityBySub(jwtHelper.getSub()).getSub().equals(jwtHelper.getSub());
+		try {
+			return userService.getUserEntityBySub(jwtHelper.getSub()).getSub().equals(jwtHelper.getSub());
+		} catch (NullPointerException e) {
+			return false;
+		}
 	}
 
 }

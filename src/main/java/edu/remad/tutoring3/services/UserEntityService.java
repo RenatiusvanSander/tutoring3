@@ -34,4 +34,12 @@ public interface UserEntityService {
 	 */
 	UserEntity getUserEntityById(Long id);
 
+	/**
+	 * Gets user by id reference
+	 * 
+	 * @param id user's id
+	 * @return {@link UserEntity}
+	 */
+	UserEntity getReferencedUserEntityById(Long id);
+
 }
