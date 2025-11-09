@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/velocity")
 public class VelocityDemoController {
-	
+
 	/**
 	 * @return string-encoded name of default velocity template
 	 */
