@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.remad.tutoring3.dto.AddressDto;
+import edu.remad.tutoring3.dto.TutoringAppointmentDto;
+import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
 import edu.remad.tutoring3.services.TutoringAppointmentEntityService;
 
 /**
@@ -27,7 +28,12 @@ public class ApiTutoringAppointmentController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<Object> saveTutoringAppointment(@RequestBody AddressDto addressDto) {
+	public ResponseEntity<Object> saveTutoringAppointment(@RequestBody TutoringAppointmentDto tutoringAppointmentDto) {
+		
+		TutoringAppointmentEntity appointment = new TutoringAppointmentEntity();
+		
+//		appointmentService.saveTutoringApointment(appointment);
+		
 		return new ResponseEntity<>("", HttpStatusCode.valueOf(201));
 	}
 }
