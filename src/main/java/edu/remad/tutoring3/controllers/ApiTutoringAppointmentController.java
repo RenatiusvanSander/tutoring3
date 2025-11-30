@@ -2,6 +2,8 @@ package edu.remad.tutoring3.controllers;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +24,43 @@ import edu.remad.tutoring3.services.TutoringAppointmentEntityService;
 public class ApiTutoringAppointmentController {
 
 	private final TutoringAppointmentEntityService appointmentService;
-	
+
+	/**
+	 * Constructor
+	 * 
+	 * @param appointmentEntityService {@link TutoringAppointmentEntityService}
+	 */
 	public ApiTutoringAppointmentController(TutoringAppointmentEntityService appointmentEntityService) {
 		appointmentService = appointmentEntityService;
 	}
-	
+
+	/**
+	 * Saves a tutoring appointment
+	 * 
+	 * @param tutoringAppointmentDto
+	 * @return json-encoded {@link TutoringAppointmentDto}
+	 */
 	@PostMapping("/save")
-	public ResponseEntity<Object> saveTutoringAppointment(@RequestBody TutoringAppointmentDto tutoringAppointmentDto) {
-		
-		TutoringAppointmentEntity appointment = new TutoringAppointmentEntity();
-		
-//		appointmentService.saveTutoringApointment(appointment);
-		
-		return new ResponseEntity<>("", HttpStatusCode.valueOf(201));
+	public ResponseEntity<TutoringAppointmentDto> saveTutoringAppointment(
+			@RequestBody TutoringAppointmentDto tutoringAppointmentDto) {
+
+		TutoringAppointmentEntity savedAppointment = appointmentService
+				.saveTutoringApointment(new TutoringAppointmentEntity(tutoringAppointmentDto));
+
+		return new ResponseEntity<>(new TutoringAppointmentDto(savedAppointment), HttpStatusCode.valueOf(201));
+	}
+
+	/**
+	 * Loads a tutoring appointment
+	 * 
+	 * @param id Tutoring Appointment's identifier
+	 * @return json-encoded loaded {@link TutoringAppointmentDto}
+	 */
+	@GetMapping("/get/{id}")
+	public ResponseEntity<TutoringAppointmentDto> loadTutoringAppointment(@PathVariable("id") Long id) {
+		TutoringAppointmentEntity loadedAppointment = appointmentService.loadTutoringApointment(id);
+
+		return new ResponseEntity<TutoringAppointmentDto>(new TutoringAppointmentDto(loadedAppointment),
+				HttpStatusCode.valueOf(200));
 	}
 }

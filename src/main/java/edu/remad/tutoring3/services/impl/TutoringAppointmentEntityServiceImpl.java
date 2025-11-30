@@ -28,4 +28,9 @@ public class TutoringAppointmentEntityServiceImpl implements TutoringAppointment
 		return tutoringAppointmentEntityRepository.save(appointment);
 	}
 
+	@Override
+	public TutoringAppointmentEntity loadTutoringApointment(Long id) {
+		return tutoringAppointmentEntityRepository.findById(id).get();
+	}
+
 }
