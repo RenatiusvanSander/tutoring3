@@ -13,12 +13,4 @@ import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
  */
 @Repository
 public interface TutoringAppointmentEntityRepository extends JpaRepository<TutoringAppointmentEntity, Long> {
-
-	/**
-	 * Saves a Tutoring Appointment
-	 * 
-	 * @param appointment tutoring appointment to save, persisting on data base
-	 * @return saved {@link TutoringAppointmentEntity}
-	 */
-	TutoringAppointmentEntity saveTutoringApointment(TutoringAppointmentEntity appointment);
 }

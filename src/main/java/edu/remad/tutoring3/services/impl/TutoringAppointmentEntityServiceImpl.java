@@ -1,5 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
+import org.springframework.stereotype.Service;
+
 import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
 import edu.remad.tutoring3.repositories.TutoringAppointmentEntityRepository;
 import edu.remad.tutoring3.services.TutoringAppointmentEntityService;
@@ -10,6 +12,7 @@ import edu.remad.tutoring3.services.TutoringAppointmentEntityService;
  * @author edu.remad
  * @since 2025
  */
+@Service
 public class TutoringAppointmentEntityServiceImpl implements TutoringAppointmentEntityService {
 
 	private final TutoringAppointmentEntityRepository tutoringAppointmentEntityRepository;
