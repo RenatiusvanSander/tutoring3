@@ -1,5 +1,7 @@
 package edu.remad.tutoring3.controllers;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +46,9 @@ public class ApiTutoringAppointmentController {
 	public ResponseEntity<TutoringAppointmentDto> saveTutoringAppointment(
 			@RequestBody TutoringAppointmentDto tutoringAppointmentDto) {
 
-		TutoringAppointmentEntity savedAppointment = appointmentService
-				.saveTutoringApointment(new TutoringAppointmentEntity(tutoringAppointmentDto));
+		TutoringAppointmentEntity newAppointment = new TutoringAppointmentEntity(tutoringAppointmentDto);
+		newAppointment.setTutoringAppointmentCreationDate(LocalDateTime.now());
+		TutoringAppointmentEntity savedAppointment = appointmentService.saveTutoringApointment(newAppointment);
 
 		return new ResponseEntity<>(new TutoringAppointmentDto(savedAppointment), HttpStatusCode.valueOf(201));
 	}
