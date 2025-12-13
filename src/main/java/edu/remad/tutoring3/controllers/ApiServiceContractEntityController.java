@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.remad.tutoring3.dto.ServiceContractDto;
@@ -77,6 +78,21 @@ public class ApiServiceContractEntityController {
 		List<ServiceContractDto> serviceContracts = loadedServiceContracts.stream()
 				.map(item -> new ServiceContractDto(item)).collect(Collectors.toList());
 
+		return new ResponseEntity<>(serviceContracts, HttpStatusCode.valueOf(200));
+	}
+	
+	/**
+	 * Gets service contracts by ids
+	 * 
+	 * @param ids service contract's identifiers
+	 * @return json-encoded {@link ServiceContractDto}
+	 */
+	@GetMapping("/get-service-contracts-by-ids")
+	public ResponseEntity<List<ServiceContractDto>> getServiceContractsByIds(@RequestParam(value = "id") List<Long> ids) {
+		List<ServiceContractEntity> loadedServiceContracts = this.serviceContractService.findServiceContractsByIds(ids);
+		List<ServiceContractDto> serviceContracts = loadedServiceContracts.stream()
+				.map(item -> new ServiceContractDto(item)).collect(Collectors.toList());
+		
 		return new ResponseEntity<>(serviceContracts, HttpStatusCode.valueOf(200));
 	}
 }
