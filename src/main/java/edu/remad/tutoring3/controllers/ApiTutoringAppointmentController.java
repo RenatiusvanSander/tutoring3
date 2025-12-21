@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.remad.tutoring3.dto.TutoringAppointmentDto;
 import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
+import edu.remad.tutoring3.persistence.models.UserEntity;
 import edu.remad.tutoring3.services.TutoringAppointmentEntityService;
+import edu.remad.tutoring3.services.UserEntityService;
 
 /**
  * Controls API REST Endpoints for tutoring appointments'
@@ -27,13 +29,18 @@ public class ApiTutoringAppointmentController {
 
 	private final TutoringAppointmentEntityService appointmentService;
 
+	private final UserEntityService userService;
+
 	/**
 	 * Constructor
 	 * 
 	 * @param appointmentEntityService {@link TutoringAppointmentEntityService}
+	 * @param userEntityService        {@link UserEntityService}
 	 */
-	public ApiTutoringAppointmentController(TutoringAppointmentEntityService appointmentEntityService) {
+	public ApiTutoringAppointmentController(TutoringAppointmentEntityService appointmentEntityService,
+			UserEntityService userEntityService) {
 		appointmentService = appointmentEntityService;
+		userService = userEntityService;
 	}
 
 	/**
@@ -45,8 +52,8 @@ public class ApiTutoringAppointmentController {
 	@PostMapping("/save")
 	public ResponseEntity<TutoringAppointmentDto> saveTutoringAppointment(
 			@RequestBody TutoringAppointmentDto tutoringAppointmentDto) {
-
-		TutoringAppointmentEntity newAppointment = new TutoringAppointmentEntity(tutoringAppointmentDto);
+		UserEntity loadedUser = userService.getReferencedUserEntityById(tutoringAppointmentDto.getUserId());
+		TutoringAppointmentEntity newAppointment = new TutoringAppointmentEntity(tutoringAppointmentDto, loadedUser);
 		newAppointment.setTutoringAppointmentCreationDate(LocalDateTime.now());
 		TutoringAppointmentEntity savedAppointment = appointmentService.saveTutoringApointment(newAppointment);
 

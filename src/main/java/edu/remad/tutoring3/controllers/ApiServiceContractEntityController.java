@@ -91,7 +91,7 @@ public class ApiServiceContractEntityController {
 	public ResponseEntity<List<ServiceContractDto>> getServiceContractsByIds(@RequestParam(value = "id") List<Long> ids) {
 		List<ServiceContractEntity> loadedServiceContracts = this.serviceContractService.findServiceContractsByIds(ids);
 		List<ServiceContractDto> serviceContracts = loadedServiceContracts.stream()
-				.map(item -> new ServiceContractDto(item)).collect(Collectors.toList());
+				.map(ServiceContractDto::new).collect(Collectors.toList());
 		
 		return new ResponseEntity<>(serviceContracts, HttpStatusCode.valueOf(200));
 	}
