@@ -1,6 +1,8 @@
 package edu.remad.tutoring3.controllers;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.remad.tutoring3.dto.ServiceContractDto;
 import edu.remad.tutoring3.dto.TutoringAppointmentDto;
+import edu.remad.tutoring3.persistence.models.ServiceContractEntity;
 import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
 import edu.remad.tutoring3.persistence.models.UserEntity;
+import edu.remad.tutoring3.services.ServiceContractService;
 import edu.remad.tutoring3.services.TutoringAppointmentEntityService;
 import edu.remad.tutoring3.services.UserEntityService;
 
@@ -30,17 +36,21 @@ public class ApiTutoringAppointmentController {
 	private final TutoringAppointmentEntityService appointmentService;
 
 	private final UserEntityService userService;
+	
+	private final ServiceContractService serviceContractService;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param appointmentEntityService {@link TutoringAppointmentEntityService}
 	 * @param userEntityService        {@link UserEntityService}
+	 * @param serviceContractService {@link ServiceContractService}
 	 */
 	public ApiTutoringAppointmentController(TutoringAppointmentEntityService appointmentEntityService,
-			UserEntityService userEntityService) {
+			UserEntityService userEntityService, ServiceContractService serviceContractService) {
 		appointmentService = appointmentEntityService;
 		userService = userEntityService;
+		this.serviceContractService = serviceContractService;
 	}
 
 	/**
@@ -52,8 +62,9 @@ public class ApiTutoringAppointmentController {
 	@PostMapping("/save")
 	public ResponseEntity<TutoringAppointmentDto> saveTutoringAppointment(
 			@RequestBody TutoringAppointmentDto tutoringAppointmentDto) {
-		UserEntity loadedUser = userService.getReferencedUserEntityById(tutoringAppointmentDto.getUserId());
-		TutoringAppointmentEntity newAppointment = new TutoringAppointmentEntity(tutoringAppointmentDto, loadedUser);
+		UserEntity loadedUser = userService.getReferencedUserEntityById(tutoringAppointmentDto.getTutoringAppointmentUser());
+		ServiceContractEntity loadeServiceContract = serviceContractService.getReferencedServiceContractById(tutoringAppointmentDto.getServiceContractId());
+		TutoringAppointmentEntity newAppointment = new TutoringAppointmentEntity(tutoringAppointmentDto, loadedUser, loadeServiceContract);
 		newAppointment.setTutoringAppointmentCreationDate(LocalDateTime.now());
 		TutoringAppointmentEntity savedAppointment = appointmentService.saveTutoringApointment(newAppointment);
 
@@ -72,5 +83,34 @@ public class ApiTutoringAppointmentController {
 
 		return new ResponseEntity<TutoringAppointmentDto>(new TutoringAppointmentDto(loadedAppointment),
 				HttpStatusCode.valueOf(200));
+	}
+	
+	/**
+	 * Gets tutoring appointments of user
+	 * 
+	 * @param userId user's identifier
+	 * @return json-encoded {@link TutoringAppointmentDto}
+	 */
+	@GetMapping("/get/by-user-id/{userId}")
+	public ResponseEntity<List<TutoringAppointmentDto>> getTutoringAppointmentsByUserId(@PathVariable("userId") Long userId) {
+		List<TutoringAppointmentEntity> loadedAppointments = this.appointmentService.loadTutoringApointmentByUserId(userId);
+		List<TutoringAppointmentDto> appointments = loadedAppointments.stream().map(TutoringAppointmentDto::new).collect(Collectors.toList());
+		
+		return new ResponseEntity<>(appointments, HttpStatusCode.valueOf(200));
+	}
+	
+	/**
+	 * Gets service contracts by ids
+	 * 
+	 * @param ids service contract's identifiers
+	 * @return json-encoded {@link ServiceContractDto}
+	 */
+	@GetMapping("/get/by-ids")
+	public ResponseEntity<List<TutoringAppointmentDto>> getTutoringAppointmentByIds(@RequestParam(value = "id") List<Long> ids) {
+		List<TutoringAppointmentEntity> loadedTutoringAppointments = this.appointmentService.loadTutoringApointmentByIds(ids);
+		List<TutoringAppointmentDto> tutoringAppointments = loadedTutoringAppointments.stream()
+				.map(TutoringAppointmentDto::new).collect(Collectors.toList());
+		
+		return new ResponseEntity<>(tutoringAppointments, HttpStatusCode.valueOf(200));
 	}
 }

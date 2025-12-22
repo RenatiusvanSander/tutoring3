@@ -1,5 +1,7 @@
 package edu.remad.tutoring3.services;
 
+import java.util.List;
+
 import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
 
 /**
@@ -25,4 +27,20 @@ public interface TutoringAppointmentEntityService {
 	 * @return loaded {@link TutoringAppointmentEntity}
 	 */
 	TutoringAppointmentEntity loadTutoringApointment(Long id);
+
+	/**
+	 * Loads tutoring appointment by a list of identifiers
+	 * 
+	 * @param ids identifiers as number
+	 * @return collection of {@link TutoringAppointmentEntity}
+	 */
+	List<TutoringAppointmentEntity> loadTutoringApointmentByIds(List<Long> ids);
+
+	/**
+	 * Loads tutoring appointments by user's identifier
+	 * 
+	 * @param userId user' identifier to load his appointments
+	 */
+	List<TutoringAppointmentEntity> loadTutoringApointmentByUserId(Long userId);
+	
 }

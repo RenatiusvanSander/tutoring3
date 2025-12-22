@@ -1,5 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
@@ -34,6 +36,16 @@ public class TutoringAppointmentEntityServiceImpl implements TutoringAppointment
 	@Override
 	public TutoringAppointmentEntity loadTutoringApointment(Long id) {
 		return tutoringAppointmentEntityRepository.findById(id).get();
+	}
+
+	@Override
+	public List<TutoringAppointmentEntity> loadTutoringApointmentByIds(List<Long> ids) {
+		return tutoringAppointmentEntityRepository.findAllById(ids);
+	}
+
+	@Override
+	public List<TutoringAppointmentEntity> loadTutoringApointmentByUserId(Long userId) {
+		return this.tutoringAppointmentEntityRepository.findByTutoringAppointmentUser_UserId(userId);
 	}
 
 }
