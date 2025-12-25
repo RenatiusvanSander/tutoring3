@@ -9,13 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.remad.tutoring3.dto.ServiceContractDto;
 import edu.remad.tutoring3.dto.TutoringAppointmentDto;
+import edu.remad.tutoring3.helper.LocalDateTimeHelper;
 import edu.remad.tutoring3.persistence.models.ServiceContractEntity;
 import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
 import edu.remad.tutoring3.persistence.models.UserEntity;
@@ -56,7 +57,7 @@ public class ApiTutoringAppointmentController {
 	/**
 	 * Saves a tutoring appointment
 	 * 
-	 * @param tutoringAppointmentDto
+	 * @param tutoringAppointmentDto {@link TutoringAppointmentDto}
 	 * @return json-encoded {@link TutoringAppointmentDto}
 	 */
 	@PostMapping("/save")
@@ -93,7 +94,7 @@ public class ApiTutoringAppointmentController {
 	 */
 	@GetMapping("/get/by-user-id/{userId}")
 	public ResponseEntity<List<TutoringAppointmentDto>> getTutoringAppointmentsByUserId(@PathVariable("userId") Long userId) {
-		List<TutoringAppointmentEntity> loadedAppointments = this.appointmentService.loadTutoringApointmentByUserId(userId);
+		List<TutoringAppointmentEntity> loadedAppointments = appointmentService.loadTutoringApointmentByUserId(userId);
 		List<TutoringAppointmentDto> appointments = loadedAppointments.stream().map(TutoringAppointmentDto::new).collect(Collectors.toList());
 		
 		return new ResponseEntity<>(appointments, HttpStatusCode.valueOf(200));
@@ -102,15 +103,40 @@ public class ApiTutoringAppointmentController {
 	/**
 	 * Gets service contracts by ids
 	 * 
-	 * @param ids service contract's identifiers
-	 * @return json-encoded {@link ServiceContractDto}
+	 * @param ids tutoring appointments' identifiers
+	 * @return json-encoded {@link TutoringAppointmentDto}
 	 */
 	@GetMapping("/get/by-ids")
 	public ResponseEntity<List<TutoringAppointmentDto>> getTutoringAppointmentByIds(@RequestParam(value = "id") List<Long> ids) {
-		List<TutoringAppointmentEntity> loadedTutoringAppointments = this.appointmentService.loadTutoringApointmentByIds(ids);
+		List<TutoringAppointmentEntity> loadedTutoringAppointments = appointmentService.loadTutoringApointmentByIds(ids);
 		List<TutoringAppointmentDto> tutoringAppointments = loadedTutoringAppointments.stream()
 				.map(TutoringAppointmentDto::new).collect(Collectors.toList());
 		
 		return new ResponseEntity<>(tutoringAppointments, HttpStatusCode.valueOf(200));
 	}
+	
+	/**
+	 * Updates single appointment
+	 * 
+	 * @param tutoringAppointmentDto {@link TutoringAppointmentDto}
+	 * @return json-encoded {@link TutoringAppointmentDto}
+	 */
+	@PutMapping("/update/single-appointment")
+	public ResponseEntity<TutoringAppointmentDto> updateSingleTutoringAppointment(@RequestBody TutoringAppointmentDto tutoringAppointmentDto) {
+		TutoringAppointmentEntity loadedAppointment = appointmentService.loadTutoringApointment(tutoringAppointmentDto.getTutoringAppointmentNo());
+		ServiceContractEntity loadedServiceContract = serviceContractService.findServiceContractById(tutoringAppointmentDto.getServiceContractId());
+		
+		if(loadedAppointment != null && loadedServiceContract != null) {
+			loadedAppointment.setServiceContractId(loadedServiceContract);
+			loadedAppointment.setAccomplished(tutoringAppointmentDto.isAccomplished());
+			loadedAppointment.setTutoringAppointmentDate(LocalDateTimeHelper.convertIsoTimeStringToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentDate()));
+			loadedAppointment.setTutoringAppointmentStartDateTime(LocalDateTimeHelper.convertIsoTimeStringToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentStartDateTime()));
+			loadedAppointment.setTutoringAppointmentEndDateTime(LocalDateTimeHelper.convertIsoTimeStringToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentEndDateTime()));
+			
+			loadedAppointment = appointmentService.updateSingleTutoringAppointment(loadedAppointment);
+		}
+		
+		return new ResponseEntity<>(new TutoringAppointmentDto(loadedAppointment), HttpStatusCode.valueOf(200));
+	}
+	
 }

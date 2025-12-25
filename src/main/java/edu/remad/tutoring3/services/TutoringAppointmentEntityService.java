@@ -43,4 +43,12 @@ public interface TutoringAppointmentEntityService {
 	 */
 	List<TutoringAppointmentEntity> loadTutoringApointmentByUserId(Long userId);
 	
+	/**
+	 * Updates single {@link TutoringAppointmentEntity}.
+	 * 
+	 * @param appointmentToUpdate {@link TutoringAppointment} with update values
+	 * @return updated {@link TutoringAppointment}
+	 */
+	TutoringAppointmentEntity updateSingleTutoringAppointment(TutoringAppointmentEntity appointmentToUpdate);
+	
 }

@@ -45,7 +45,12 @@ public class TutoringAppointmentEntityServiceImpl implements TutoringAppointment
 
 	@Override
 	public List<TutoringAppointmentEntity> loadTutoringApointmentByUserId(Long userId) {
-		return this.tutoringAppointmentEntityRepository.findByTutoringAppointmentUser_UserId(userId);
+		return tutoringAppointmentEntityRepository.findByTutoringAppointmentUser_UserId(userId);
+	}
+
+	@Override
+	public TutoringAppointmentEntity updateSingleTutoringAppointment(TutoringAppointmentEntity appointmentToUpdate) {
+		return tutoringAppointmentEntityRepository.save(appointmentToUpdate);
 	}
 
 }

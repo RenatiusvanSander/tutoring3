@@ -17,7 +17,7 @@ import edu.remad.tutoring3.persistence.models.TutoringAppointmentEntity;
 public interface TutoringAppointmentEntityRepository extends JpaRepository<TutoringAppointmentEntity, Long> {
 
 	/**
-	 * Finds tutoring appointments by user id
+	 * Finds tutoring appointments by user's id
 	 * 
 	 * @param userId user's identifier
 	 * @return list of {@link TutoringAppointmentEntity}
