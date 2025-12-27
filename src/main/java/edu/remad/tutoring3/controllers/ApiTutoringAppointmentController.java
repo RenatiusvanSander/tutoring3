@@ -129,9 +129,9 @@ public class ApiTutoringAppointmentController {
 		if(loadedAppointment != null && loadedServiceContract != null) {
 			loadedAppointment.setServiceContractId(loadedServiceContract);
 			loadedAppointment.setAccomplished(tutoringAppointmentDto.isAccomplished());
-			loadedAppointment.setTutoringAppointmentDate(LocalDateTimeHelper.convertIsoTimeStringToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentDate()));
-			loadedAppointment.setTutoringAppointmentStartDateTime(LocalDateTimeHelper.convertIsoTimeStringToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentStartDateTime()));
-			loadedAppointment.setTutoringAppointmentEndDateTime(LocalDateTimeHelper.convertIsoTimeStringToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentEndDateTime()));
+			loadedAppointment.setTutoringAppointmentDate(LocalDateTimeHelper.convertIsoTimeWithoutZToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentDate()));
+			loadedAppointment.setTutoringAppointmentStartDateTime(LocalDateTimeHelper.convertIsoTimeWithoutZToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentStartDateTime()));
+			loadedAppointment.setTutoringAppointmentEndDateTime(LocalDateTimeHelper.convertIsoTimeWithoutZToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentEndDateTime()));
 			
 			loadedAppointment = appointmentService.updateSingleTutoringAppointment(loadedAppointment);
 		}
