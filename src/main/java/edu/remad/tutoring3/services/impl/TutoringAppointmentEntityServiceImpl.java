@@ -1,6 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,9 @@ public class TutoringAppointmentEntityServiceImpl implements TutoringAppointment
 
 	@Override
 	public TutoringAppointmentEntity loadTutoringApointment(Long id) {
-		return tutoringAppointmentEntityRepository.findById(id).get();
+		Optional<TutoringAppointmentEntity> optional = tutoringAppointmentEntityRepository.findById(id);
+		
+		return optional.get();
 	}
 
 	@Override
