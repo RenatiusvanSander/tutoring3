@@ -59,4 +59,11 @@ public interface TutoringAppointmentEntityService {
 	 */
 	List<TutoringAppointmentEntity> updateMultipleTutoringAppointments(List<TutoringAppointmentEntity> updatedAppointments);
 	
+	/**
+	 * Loads not accomplished {@link TutoringAppointmentEntity}
+	 * 
+	 * @return collection of {@link TutoringAppointmentEntity}
+	 */
+	List<TutoringAppointmentEntity> loadNotAccomplishedTutoringAppointments();
+	
 }

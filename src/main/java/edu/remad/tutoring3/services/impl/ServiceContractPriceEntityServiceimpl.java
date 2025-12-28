@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.remad.tutoring3.persistence.models.ServiceContractEntity;
 import edu.remad.tutoring3.persistence.models.ServiceContractPriceEntity;
+import edu.remad.tutoring3.persistence.models.UserEntity;
 import edu.remad.tutoring3.repositories.ServiceContractPriceEntityRepository;
 import edu.remad.tutoring3.services.ServiceContractPriceEntityService;
 
@@ -53,6 +55,11 @@ public class ServiceContractPriceEntityServiceimpl implements ServiceContractPri
 	@Override
 	public List<ServiceContractPriceEntity> findNotConfirmedServiceContractPrices() {
 		return serviceContractPriceRepository.findByConfirmedFalse();
+	}
+
+	@Override
+	public ServiceContractPriceEntity findByUserIdAndServiceContractId(UserEntity userId, ServiceContractEntity serviceContractId) {
+		return serviceContractPriceRepository.findByUserIdAndServiceContractId(userId, serviceContractId);
 	}
 
 }

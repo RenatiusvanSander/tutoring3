@@ -23,4 +23,11 @@ public interface TutoringAppointmentEntityRepository extends JpaRepository<Tutor
 	 * @return list of {@link TutoringAppointmentEntity}
 	 */
 	List<TutoringAppointmentEntity> findByTutoringAppointmentUser_UserId(Long userId);
+	
+	/**
+	 * Finds tutoring appointments by isAccomplished equals false
+	 * 
+	 * @return list of {@link TutoringAppointmentEntity}
+	 */
+	List<TutoringAppointmentEntity> findByisAccomplishedFalse();
 }
