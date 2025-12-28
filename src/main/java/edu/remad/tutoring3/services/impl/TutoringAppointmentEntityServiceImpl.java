@@ -53,4 +53,9 @@ public class TutoringAppointmentEntityServiceImpl implements TutoringAppointment
 		return tutoringAppointmentEntityRepository.save(appointmentToUpdate);
 	}
 
+	@Override
+	public List<TutoringAppointmentEntity> updateMultipleTutoringAppointments(List<TutoringAppointmentEntity> updatedAppointments) {
+		return tutoringAppointmentEntityRepository.saveAll(updatedAppointments);
+	}
+
 }

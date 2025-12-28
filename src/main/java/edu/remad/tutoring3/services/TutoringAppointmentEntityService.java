@@ -50,5 +50,13 @@ public interface TutoringAppointmentEntityService {
 	 * @return updated {@link TutoringAppointment}
 	 */
 	TutoringAppointmentEntity updateSingleTutoringAppointment(TutoringAppointmentEntity appointmentToUpdate);
+
+	/**
+	 * Updates multiple {@link TutoringAppointmentEntity}
+	 * 
+	 * @param updatedAppointments collection of {@link TutoringAppointmentEntity}s to update and persist
+	 * @return collection of {@link TutoringAppointmentEntity}
+	 */
+	List<TutoringAppointmentEntity> updateMultipleTutoringAppointments(List<TutoringAppointmentEntity> updatedAppointments);
 	
 }

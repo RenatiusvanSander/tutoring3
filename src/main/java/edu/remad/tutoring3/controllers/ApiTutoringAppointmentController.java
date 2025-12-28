@@ -1,6 +1,8 @@
 package edu.remad.tutoring3.controllers;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -139,4 +141,45 @@ public class ApiTutoringAppointmentController {
 		return new ResponseEntity<>(new TutoringAppointmentDto(loadedAppointment), HttpStatusCode.valueOf(200));
 	}
 	
+	/**
+	 * Updates multiple appointments
+	 * 
+	 * @param tutoringAppointmentDtos {@link List}
+	 * @return json-encoded array of {@link TutoringAppointmentDto}
+	 */
+	@PutMapping("/update/multiple-appointment")
+	public ResponseEntity<List<TutoringAppointmentDto>> updateMultipleTutoringAppointments(@RequestBody List<TutoringAppointmentDto> tutoringAppointmentDtos) {
+		List<Long> tutoringAppointmentIds = tutoringAppointmentDtos.stream().mapToLong(TutoringAppointmentDto::getTutoringAppointmentNo).boxed().collect(Collectors.toList());
+		List<TutoringAppointmentEntity> loadedAppointments = appointmentService.loadTutoringApointmentByIds(tutoringAppointmentIds);
+		List<Long> serviceContractIds = tutoringAppointmentDtos.stream().mapToLong(null).boxed().collect(Collectors.toList());
+		List<ServiceContractEntity> loadedServiceContracts = serviceContractService.findServiceContractsByIds(serviceContractIds);
+		
+		List<TutoringAppointmentEntity> updatedAppointments = new ArrayList<>();
+		List<TutoringAppointmentDto> updatedAppointmentDtos = new ArrayList<>();
+		if(loadedAppointments != null && !loadedAppointments.isEmpty() && loadedServiceContracts != null && !loadedServiceContracts.isEmpty() && loadedAppointments.size() == loadedServiceContracts.size()) {
+			
+			Iterator<TutoringAppointmentEntity> loadedAppointmentsIterator = loadedAppointments.iterator();
+			Iterator<ServiceContractEntity> loadedServiceContractsIterator = loadedServiceContracts.iterator();
+			Iterator<TutoringAppointmentDto> tutoringAppointmentDtosIterator = tutoringAppointmentDtos.iterator();
+			while(loadedAppointmentsIterator.hasNext() && loadedServiceContractsIterator.hasNext() && tutoringAppointmentDtosIterator.hasNext()) {
+				TutoringAppointmentDto appointmentDto = tutoringAppointmentDtosIterator.next();
+				ServiceContractEntity serviceContract = loadedServiceContractsIterator.next();
+				
+				TutoringAppointmentEntity updatedAppointment = loadedAppointmentsIterator.next();
+				updatedAppointment.setServiceContractId(serviceContract);
+				updatedAppointment.setAccomplished(appointmentDto.isAccomplished());
+				updatedAppointment.setTutoringAppointmentDate(LocalDateTimeHelper.convertIsoTimeWithoutZToLocalDateTime(appointmentDto.getTutoringAppointmentDate()));
+				updatedAppointment.setTutoringAppointmentStartDateTime(LocalDateTimeHelper.convertIsoTimeWithoutZToLocalDateTime(appointmentDto.getTutoringAppointmentStartDateTime()));
+				updatedAppointment.setTutoringAppointmentEndDateTime(LocalDateTimeHelper.convertIsoTimeWithoutZToLocalDateTime(appointmentDto.getTutoringAppointmentEndDateTime()));
+				updatedAppointments.add(updatedAppointment);
+			}
+		}
+		
+		updatedAppointments = appointmentService.updateMultipleTutoringAppointments(updatedAppointments);
+		for(TutoringAppointmentEntity updatedAppointment : updatedAppointments) {
+			updatedAppointmentDtos.add(new TutoringAppointmentDto(updatedAppointment));
+		}
+		
+		return new ResponseEntity<>(updatedAppointmentDtos, HttpStatusCode.valueOf(200));
+	}
 }
