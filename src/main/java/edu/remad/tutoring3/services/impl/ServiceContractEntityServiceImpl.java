@@ -20,7 +20,7 @@ import edu.remad.tutoring3.services.ServiceContractService;
 @Service
 public class ServiceContractEntityServiceImpl implements ServiceContractService {
 
-	/** Repository for service contracts  */
+	/** Repository for service contracts */
 	private final ServiceContractEntityRepository serviceContractRepo;
 
 	/**
@@ -130,7 +130,8 @@ public class ServiceContractEntityServiceImpl implements ServiceContractService 
 	@Override
 	public List<ServiceContractEntity> findServiceContractsByIds(List<Long> ids) {
 		List<ServiceContractEntity> foundServiceContracts = serviceContractRepo.findAllById(ids);
-		
+		foundServiceContracts.get(0).getServiceContractNo();
+
 		return foundServiceContracts;
 	}
 
