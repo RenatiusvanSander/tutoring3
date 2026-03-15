@@ -139,6 +139,7 @@ public class ApiTutoringAppointmentController {
 				.loadTutoringApointment(tutoringAppointmentDto.getTutoringAppointmentNo());
 		ServiceContractEntity loadedServiceContract = serviceContractService
 				.findServiceContractById(tutoringAppointmentDto.getServiceContractId());
+		TutoringAppointmentEntity updateAppointment = null;
 
 		if (loadedAppointment != null && loadedServiceContract != null) {
 			loadedAppointment.setServiceContractId(loadedServiceContract);
@@ -151,10 +152,10 @@ public class ApiTutoringAppointmentController {
 			loadedAppointment.setTutoringAppointmentEndDateTime(LocalDateTimeHelper
 					.convertIsoTimeWithoutZToLocalDateTime(tutoringAppointmentDto.getTutoringAppointmentEndDateTime()));
 
-			loadedAppointment = appointmentService.updateSingleTutoringAppointment(loadedAppointment);
+			updateAppointment = appointmentService.updateSingleTutoringAppointment(loadedAppointment);
 		}
 
-		return new ResponseEntity<>(new TutoringAppointmentDto(loadedAppointment), HttpStatusCode.valueOf(200));
+		return new ResponseEntity<>(new TutoringAppointmentDto(updateAppointment), HttpStatusCode.valueOf(200));
 	}
 
 	/**
@@ -210,5 +211,18 @@ public class ApiTutoringAppointmentController {
 		}
 
 		return new ResponseEntity<>(updatedAppointmentDtos, HttpStatusCode.valueOf(200));
+	}
+	
+	/**
+	 * Loads not accomplished {@link TutoringAppointmentEntity}
+	 * 
+	 * @return json-encoded array of {@link TutoringAppointmentDto}
+	 */
+	@GetMapping("/get/by-not-accomplished")
+	public ResponseEntity<List<TutoringAppointmentDto>> loadNotAccomplishedTutoringAppointments() {
+		List<TutoringAppointmentEntity> loadedAppointments = appointmentService.loadNotAccomplishedTutoringAppointments();
+		List<TutoringAppointmentDto> notAccomplishedAppointments = loadedAppointments.stream().map(TutoringAppointmentDto::new).collect(Collectors.toList());
+		
+		return new ResponseEntity<>(notAccomplishedAppointments, HttpStatusCode.valueOf(200));
 	}
 }

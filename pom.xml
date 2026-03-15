@@ -90,7 +90,6 @@
 		<dependency>
 			<groupId>jakarta.servlet.jsp.jstl</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-			<version>3.0.1</version>
 		</dependency>
 		
 		<dependency>
@@ -147,7 +146,7 @@
 		<dependency>
 			<groupId>edu.remad</groupId>
 			<artifactId>tutoring3-models</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>0.50.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

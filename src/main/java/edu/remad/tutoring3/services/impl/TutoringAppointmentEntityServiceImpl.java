@@ -61,4 +61,9 @@ public class TutoringAppointmentEntityServiceImpl implements TutoringAppointment
 		return tutoringAppointmentEntityRepository.saveAll(updatedAppointments);
 	}
 
+	@Override
+	public List<TutoringAppointmentEntity> loadNotAccomplishedTutoringAppointments() {
+		return tutoringAppointmentEntityRepository.findByisAccomplishedFalse();
+	}
+
 }

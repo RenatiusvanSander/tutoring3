@@ -2,7 +2,9 @@ package edu.remad.tutoring3.services;
 
 import java.util.List;
 
+import edu.remad.tutoring3.persistence.models.ServiceContractEntity;
 import edu.remad.tutoring3.persistence.models.ServiceContractPriceEntity;
+import edu.remad.tutoring3.persistence.models.UserEntity;
 
 /**
  * Defines methods to read, delete, update and persist an {@link ServiceContractPriceEntity}
@@ -49,5 +51,14 @@ public interface ServiceContractPriceEntityService {
 	 * @return list of {@link ServiceContractPriceEntity}
 	 */
 	List<ServiceContractPriceEntity> findNotConfirmedServiceContractPrices();
+	
+	/**
+	 * Finds {@link ServiceContractPriceEntity} by user's id and service contract's id
+	 * 
+	 * @param userId {@link UserEntity}
+	 * @param serviceContractId {@link ServiceContractEntity}
+	 * @return {@link ServiceContractPriceEntity}
+	 */
+	ServiceContractPriceEntity findByUserIdAndServiceContractId(UserEntity userId, ServiceContractEntity serviceContractId);
 
 }

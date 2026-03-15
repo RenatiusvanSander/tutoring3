@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.remad.tutoring3.dto.ServiceContractPriceDto;
@@ -116,10 +117,9 @@ public class ApiServiceContractPriceEntityController {
 		List<ServiceContractPriceDto> notCofirmedServiceContractPrices = loadedNotCofirmedServiceContractPrices.stream()
 				.map(item -> new ServiceContractPriceDto(item)).toList();
 
-		return new ResponseEntity<>(notCofirmedServiceContractPrices,
-				HttpStatusCode.valueOf(200));
+		return new ResponseEntity<>(notCofirmedServiceContractPrices, HttpStatusCode.valueOf(200));
 	}
-	
+
 	/**
 	 * Updates {@link ServiceContractEntity}
 	 * 
@@ -127,22 +127,46 @@ public class ApiServiceContractPriceEntityController {
 	 * @return json-encoded {@link ServiceContractEntity}
 	 */
 	@PutMapping("/update-service-contract-price")
-	public ResponseEntity<ServiceContractPriceDto> updateServiceContractPrice(@RequestBody ServiceContractPriceDto serviceContractPrice) {
-		ServiceContractPriceEntity loadedSCP = serviceContractPriceService.getServiceContractPrice(serviceContractPrice.getId());
+	public ResponseEntity<ServiceContractPriceDto> updateServiceContractPrice(
+			@RequestBody ServiceContractPriceDto serviceContractPrice) {
+		ServiceContractPriceEntity loadedSCP = serviceContractPriceService
+				.getServiceContractPrice(serviceContractPrice.getId());
 		loadedSCP.setConfirmed(serviceContractPrice.isConfirmed());
-		
-		if(serviceContractPrice.getPriceId() != loadedSCP.getPriceId().getId()) {
+
+		if (serviceContractPrice.getPriceId() != loadedSCP.getPriceId().getId()) {
 			PriceEntity loadedPrice = priceService.getPrice(serviceContractPrice.getPriceId());
 			loadedSCP.setPriceId(loadedPrice);
 		}
-		
-		if(serviceContractPrice.getServiceContractId() != loadedSCP.getServiceContractId().getServiceContractNo()) {
-			ServiceContractEntity loadedServiceContract = serviceContractService.findServiceContractById(serviceContractPrice.getServiceContractId());
-			loadedSCP.setServiceContractId(loadedServiceContract);			
+
+		if (serviceContractPrice.getServiceContractId() != loadedSCP.getServiceContractId().getServiceContractNo()) {
+			ServiceContractEntity loadedServiceContract = serviceContractService
+					.findServiceContractById(serviceContractPrice.getServiceContractId());
+			loadedSCP.setServiceContractId(loadedServiceContract);
 		}
-		
-		ServiceContractPriceEntity updatedServiceContractPrice = serviceContractPriceService.updateServiceContractPrice(loadedSCP);
-		
-		return new ResponseEntity<>(new ServiceContractPriceDto(updatedServiceContractPrice), HttpStatusCode.valueOf(200));
+
+		ServiceContractPriceEntity updatedServiceContractPrice = serviceContractPriceService
+				.updateServiceContractPrice(loadedSCP);
+
+		return new ResponseEntity<>(new ServiceContractPriceDto(updatedServiceContractPrice),
+				HttpStatusCode.valueOf(200));
+	}
+
+	/**
+	 * Loads service contract price by user's id and service contract's id.
+	 * 
+	 * @param userId user's id
+	 * @param serviceContractId service contract's id
+	 * @return json-encoded {@link ServiceContractPriceEntity}
+	 */
+	@GetMapping("/get-service-contract-price-by-userid-and-service-contract-id")
+	public ResponseEntity<ServiceContractPriceDto> getServiceContractPriceByUserIdAndServiceContractId(
+			@RequestParam(name = "userId", required = true, defaultValue = "0") long userId,
+			@RequestParam(name = "serviceContractId", required = true, defaultValue = "0") long serviceContractId) {
+		UserEntity loadedUser = userService.getReferencedUserEntityById(userId);
+		ServiceContractEntity loadedSc = serviceContractService.getReferencedServiceContractById(serviceContractId);
+		ServiceContractPriceEntity loadedSCP = serviceContractPriceService.findByUserIdAndServiceContractId(loadedUser,
+				loadedSc);
+
+		return new ResponseEntity<>(new ServiceContractPriceDto(loadedSCP), HttpStatusCode.valueOf(200));
 	}
 }
