@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.remad.tutoring3.helper.DownloadHelper;
 import edu.remad.tutoring3.persistence.models.InvoiceEntity;
 import edu.remad.tutoring3.services.InvoiceEntityService;
+import edu.remad.tutoring3.services.InvoicePdfService;
 
 /**
  * Controls API REST Endpoints for invoices's PDF file to download
@@ -31,18 +32,29 @@ public class ApiInvoiceEntityPdfController {
 	private final InvoiceEntityService invoiceEntityService;
 	
 	/**
+	 * invoice pdf service
+	 */
+	private final InvoicePdfService invoicePdfService;
+	
+	/**
 	 * Constructor
 	 * 
 	 * @param invoiceService {@link InvoiceEntityService}
+	 * @param invoicePdfService {@link InvoicePdfService}
 	 */
-	public ApiInvoiceEntityPdfController(InvoiceEntityService invoiceService) {
+	public ApiInvoiceEntityPdfController(InvoiceEntityService invoiceService, InvoicePdfService invoicePdfService) {
 		invoiceEntityService = invoiceService;
+		this.invoicePdfService = invoicePdfService;
 	}
 	
 	@GetMapping(value = "/getPdfInvoice/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<byte[]> getPdfInvoice(@PathVariable("id") long invoiceId) {
-		InvoiceEntity loadedInvoice = invoiceEntityService.loadInvoiceById(invoiceId);
-		byte[] pdfInvoiceFile = null;//pdfCreatorService.createInvoicePdf(loadedInvoice);
+		byte[] pdfInvoiceFile = invoicePdfService.createAndSaveInvoiceFile(invoiceId);
+		
+		if(pdfInvoiceFile.length == 0) {
+			return ResponseEntity.notFound().build();
+		}
+		
 		HttpHeaders httpHeaders = DownloadHelper.createHttpHeaders("invoice-" + invoiceId + ".pdf");
 
 		return ResponseEntity.ok().contentLength(pdfInvoiceFile.length).contentType(MediaType.APPLICATION_OCTET_STREAM)
