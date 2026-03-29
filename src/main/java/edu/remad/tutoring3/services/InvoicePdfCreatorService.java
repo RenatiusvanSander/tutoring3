@@ -24,9 +24,9 @@ public interface InvoicePdfCreatorService {
 	 * Create invoices as PDFs
 	 * 
 	 * @param invoices list of {@link InvoiceEntity} to create PDFs for
-	 * @return byte array, which is a PDF
+	 * @return list of byte arrays, which are PDFs
 	 */
-	byte[] createInvoicesPdfs(List<InvoiceEntity> invoices);
+	List<byte[]> createInvoicesPdfs(List<InvoiceEntity> invoices);
 	
 	/**
 	 * Merge invoices PDFs to one PDF

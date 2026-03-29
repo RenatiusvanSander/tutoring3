@@ -40,7 +40,7 @@ public interface InvoicePdfService {
 	 * @param ids invoices' identifiers to merge to one PDF file
 	 * @return byte array, which is an invoice as PDF
 	 */
-	List<byte[]> loadInvoicesAndMergeToOneFile(List<Long> ids);
+	byte[] loadInvoicesAndMergeToOneFile(List<Long> ids);
 
 	/**
 	 * Create and save invoice files 
