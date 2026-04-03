@@ -13,8 +13,8 @@ import edu.remad.tutoring3.services.InvoicePdfCreatorService;
 import edu.remad.tutoring3.services.InvoicePdfService;
 
 /**
- * Service for saving and fetching PDFs
- * Creation of PDF is done here: {@link InvoicePdfCreatorService}
+ * Service for saving and fetching PDFs Creation of PDF is done here:
+ * {@link InvoicePdfCreatorService}
  * 
  * @author edu.remad
  * @since 2026
@@ -40,9 +40,13 @@ public class InvoicePdfServiceImpl implements InvoicePdfService {
 		byte[] invoicePdf = "PDF".getBytes();
 		if (loadedInvoice.isPresent()) {
 			InvoiceEntity invoice = loadedInvoice.get();
-			invoicePdf = pdfCreatorService.createInvoicePdf(invoice);
+			
+			byte[] loadedInvoicePdf = pdfCreatorService.createInvoicePdf(invoice);
+			if (loadedInvoicePdf != null && loadedInvoicePdf.length > 0) {
+				invoicePdf = loadedInvoicePdf;
+			}
+			
 			invoice.setInvoiceFile(invoicePdf);
-
 			invoiceEntityRepository.saveAndFlush(invoice);
 		}
 
