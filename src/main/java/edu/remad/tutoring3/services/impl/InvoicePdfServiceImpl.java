@@ -1,5 +1,7 @@
 package edu.remad.tutoring3.services.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,18 +28,29 @@ public class InvoicePdfServiceImpl implements InvoicePdfService {
 	private final InvoiceEntityRepository invoiceEntityRepository;
 
 	private final InvoicePdfCreatorService pdfCreatorService;
+	
+	private final InputStream is = InvoicePdfServiceImpl.class.getClassLoader().getResourceAsStream("test.pdf");
+	
+	private byte[] pdfFileBytes;
 
 	public InvoicePdfServiceImpl(InvoiceEntityRepository invoiceEntityRepository,
 			InvoicePdfCreatorService invoicePdfCreatorService) {
 		this.invoiceEntityRepository = invoiceEntityRepository;
 		pdfCreatorService = invoicePdfCreatorService;
+		
+		try {
+			pdfFileBytes = is.readAllBytes();
+		} catch (IOException e) {
+			// ignore
+		}
 	}
 
 	@Override
 	public byte[] createAndSaveInvoiceFile(long invoiceNo) {
 		Optional<InvoiceEntity> loadedInvoice = invoiceEntityRepository.findById(invoiceNo);
 
-		byte[] invoicePdf = "PDF".getBytes();
+		byte[] invoicePdf = pdfFileBytes;
+		
 		if (loadedInvoice.isPresent()) {
 			InvoiceEntity invoice = loadedInvoice.get();
 			
