@@ -68,14 +68,14 @@ public class InvoicePdfServiceImpl implements InvoicePdfService {
 
 	@Override
 	public byte[] loadInvoiceFile(Long id) {
-		byte[] invociePdf = "empty".getBytes();
+		byte[] invoicePdf = "empty".getBytes();
 
 		Optional<InvoiceEntity> loadedInvoice = invoiceEntityRepository.findById(id);
 		if (loadedInvoice.isPresent()) {
-			invociePdf = loadedInvoice.get().getInvoiceFile();
+			invoicePdf = loadedInvoice.get().getInvoiceFile();
 		}
 
-		return invociePdf;
+		return invoicePdf;
 	}
 
 	@Override

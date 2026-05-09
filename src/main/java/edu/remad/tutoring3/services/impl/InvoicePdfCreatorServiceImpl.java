@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import edu.remad.tutoring3.persistence.models.InvoiceEntity;
 import edu.remad.tutoring3.services.InvoicePdfCreatorService;
+import edu.remad.tutoring3.services.pdf.PDFComplexInvoiceBuilder;
 
 /**
  * Service for loading and saving invoices
@@ -19,8 +20,7 @@ public class InvoicePdfCreatorServiceImpl implements InvoicePdfCreatorService {
 
 	@Override
 	public byte[] createInvoicePdf(InvoiceEntity invoice) {
-		// TODO Auto-generated method stub
-		return null;
+		return new PDFComplexInvoiceBuilder().invoice(invoice).build();
 	}
 
 	@Override
