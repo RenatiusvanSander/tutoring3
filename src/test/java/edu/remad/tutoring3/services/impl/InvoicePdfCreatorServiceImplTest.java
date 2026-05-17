@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +20,6 @@ import edu.remad.tutoring3.persistence.models.InvoiceEntity;
 import edu.remad.tutoring3.persistence.models.PriceEntity;
 import edu.remad.tutoring3.persistence.models.ServiceContractEntity;
 import edu.remad.tutoring3.persistence.models.UserEntity;
-import edu.remad.tutoring3.services.pdf.exception.PDFComplexInvoiceBuilderException;
 
 /**
  * Unit Tests for {@link InvoicePdfCreatorServiceImpl}
@@ -83,7 +84,7 @@ public class InvoicePdfCreatorServiceImplTest {
 
 	@Test
 	public void testCreateInvoicePdfThrowException() {
-		assertThrows(PDFComplexInvoiceBuilderException.class, () -> serviceUnderTest.createInvoicePdf(null));
+		assertThrows(IllegalArgumentException.class, () -> serviceUnderTest.createInvoicePdf(null));
 	}
 
 	@Test
@@ -91,6 +92,23 @@ public class InvoicePdfCreatorServiceImplTest {
 		byte[] invoice = serviceUnderTest.createInvoicePdf(createInvoice());
 		assertNotNull(invoice, "May not be null!");
 		assertTrue(invoice.length > 0, "Must be greater than 0!");
+	}
+
+	@Test
+	public void testMergeInvoices() throws IOException {
+		List<byte[]> invoices = new ArrayList<>();
+		invoices.add(loadInvoiceResource("/invoice_151.pdf"));
+		invoices.add(loadInvoiceResource("/invoice_152.pdf"));
+
+		byte[] actualMergedInvoices = serviceUnderTest.mergeInvoices(invoices);
+		assertNotNull(actualMergedInvoices, "");
+		assertTrue(actualMergedInvoices.length >= 10000,"");
+	}
+
+	private byte[] loadInvoiceResource(String resourcePath) throws IOException {
+		InputStream resource = this.getClass().getResourceAsStream(resourcePath);
+		
+		return resource.readAllBytes();
 	}
 
 }

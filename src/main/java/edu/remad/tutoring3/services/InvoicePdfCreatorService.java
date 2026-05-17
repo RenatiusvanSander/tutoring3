@@ -1,5 +1,6 @@
 package edu.remad.tutoring3.services;
 
+import java.io.IOException;
 import java.util.List;
 
 import edu.remad.tutoring3.persistence.models.InvoiceEntity;
@@ -33,6 +34,7 @@ public interface InvoicePdfCreatorService {
 	 * 
 	 * @param invoicesToMerge list of byte arrays, every array is one PDF, and merged to one PDF together
 	 * @return byte array, which is a PDF
+	 * @throws IOException 
 	 */
 	byte[] mergeInvoices(List<byte[]> invoicesToMerge);
 	
