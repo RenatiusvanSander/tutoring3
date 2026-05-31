@@ -1,6 +1,8 @@
 package edu.remad.tutoring3.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class AddressEntityServiceImpl implements AddressEntityService {
 
 	/** repository for addresses */
 	private final AddressEntityRepository addressRepository;
-	
+
 	/** repository for users */
 	private final UserEntityService userEntityService;
 
@@ -32,40 +34,50 @@ public class AddressEntityServiceImpl implements AddressEntityService {
 	 * Constructor
 	 * 
 	 * @param addressEntityRepository {@link AddressEntityRepository}
-	 * @param userEntityService {@link UserEntityService}
+	 * @param userEntityService       {@link UserEntityService}
 	 */
-	public AddressEntityServiceImpl(AddressEntityRepository addressEntityRepository, UserEntityService userEntityService) {
+	public AddressEntityServiceImpl(AddressEntityRepository addressEntityRepository,
+			UserEntityService userEntityService) {
 		addressRepository = addressEntityRepository;
 		this.userEntityService = userEntityService;
 	}
 
 	@Override
 	public AddressEntity findByAddressId(Long id) {
-		AddressEntity foundAddress = addressRepository.findById(id).get();
+		Optional<AddressEntity> foundAddress = addressRepository.findById(id);
 
-		return foundAddress;
+		if (foundAddress.isPresent()) {
+			return foundAddress.get();
+		}
+
+		throw new IllegalArgumentException("No address found with id: " + id);
 	}
 
 	@Override
 	public AddressEntity saveAddress(AddressEntity address) {
-		AddressEntity savedAddress = addressRepository.save(address);
-
-		return savedAddress;
+		return addressRepository.save(address);
 	}
 
 	@Override
 	public List<AddressEntity> findByAdressIds(List<Long> ids) {
 		List<AddressEntity> foundAddresses = addressRepository.findAllById(ids);
 
-		return foundAddresses;
+		return new ArrayList<>(foundAddresses);
 	}
 
 	@Override
 	public AddressEntity patchAddress(AddressEntity address) {
 		Optional<AddressEntity> optional = addressRepository.findById(address.getId());
-		AddressEntity unpatchedAddress = optional.get();
+		AddressEntity unpatchedAddress;
 
-		if (!unpatchedAddress.getAddressStreet().equals(address.getAddressStreet())) {
+		if (optional.isEmpty()) {
+			throw new IllegalStateException(
+					"optional is empty and an address entity is required for patching an address");
+		} else {
+			unpatchedAddress = optional.get();
+		}
+
+		if (!Objects.equals(unpatchedAddress.getAddressStreet(), address.getAddressStreet())) {
 			unpatchedAddress.setAddressStreet(address.getAddressStreet());
 		}
 		if (!unpatchedAddress.getAddressHouseNo().equals(address.getAddressHouseNo())) {
@@ -78,20 +90,19 @@ public class AddressEntityServiceImpl implements AddressEntityService {
 			unpatchedAddress.setPlace(address.getPlace());
 		}
 
-		AddressEntity patchedAddress = addressRepository.save(unpatchedAddress);
-
-		return patchedAddress;
+		return addressRepository.save(unpatchedAddress);
 	}
 
 	@Override
 	public List<AddressEntity> findAddressesByUserId(Long userId) {
 		UserEntity user = userEntityService.getUserEntityById(userId);
-		
-		return addressRepository.findByUser(user);
+		List<AddressEntity> addresses = addressRepository.findByUser(user);
+
+		return new ArrayList<>(addresses);
 	}
 
 	@Override
 	public void deleteAddressById(Long id) {
-		addressRepository.deleteById(id);		
+		addressRepository.deleteById(id);
 	}
 }
