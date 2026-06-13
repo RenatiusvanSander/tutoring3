@@ -44,4 +44,13 @@ public class SecurityOAuth2ResourceServer {
 				.authorizeHttpRequests(requests -> requests.anyRequest().permitAll())
 				.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())).build();
 	}
+	
+	@Bean
+	@Order(3)
+	SecurityFilterChain unauthroizedApiTestFilterChain(HttpSecurity http) throws Exception {
+		return http.securityMatcher("/api/test/**")
+				.sessionManagement(session -> session.maximumSessions(1).maxSessionsPreventsLogin(true))
+				.authorizeHttpRequests(requests -> requests.anyRequest().permitAll())
+				.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())).build();
+	}
 }
