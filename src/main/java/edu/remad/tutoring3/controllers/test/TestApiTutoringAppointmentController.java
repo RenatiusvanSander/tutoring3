@@ -57,6 +57,16 @@ public class TestApiTutoringAppointmentController {
 		userService = userEntityService;
 		this.serviceContractService = serviceContractService;
 	}
+	
+	/**
+	 * Gets a status
+	 * 
+	 * @return string-encoded status
+	 */
+	@GetMapping("/get")
+	public ResponseEntity<String> getControllerStatus() {
+		return ResponseEntity.ok("Test API TutoringAppointmentController works");
+	}
 
 	/**
 	 * Saves a tutoring appointment
