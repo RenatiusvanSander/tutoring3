@@ -1,4 +1,4 @@
-package edu.remad.tutoring3.controllers;
+package edu.remad.tutoring3.controllers.test;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,11 +28,11 @@ import edu.remad.tutoring3.services.UserEntityService;
  * Controls API REST Endpoints for service contract prices
  * 
  * @author edu.remad
- * @since 2025
+ * @since 2026
  */
 @RestController
-@RequestMapping("/api/servicecontractprices")
-public class ApiServiceContractPriceEntityController {
+@RequestMapping("/test/servicecontractprices")
+public class TestApiServiceContractPriceEntityController {
 
 	private final PriceEntityService priceService;
 	private final ServiceContractService serviceContractService;
@@ -47,7 +47,7 @@ public class ApiServiceContractPriceEntityController {
 	 * @param serviceContractPriceService {@link ServiceContractPriceEntityService}
 	 * @param userEntityService           {@link UserEntityService}
 	 */
-	public ApiServiceContractPriceEntityController(PriceEntityService priceService,
+	public TestApiServiceContractPriceEntityController(PriceEntityService priceService,
 			ServiceContractService serviceContractService,
 			ServiceContractPriceEntityService serviceContractPriceService, UserEntityService userEntityService) {
 		this.priceService = priceService;

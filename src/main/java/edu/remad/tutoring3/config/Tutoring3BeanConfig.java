@@ -49,6 +49,7 @@ public class Tutoring3BeanConfig {
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/api/**", cors);
+		source.registerCorsConfiguration("/test/**", cors);
 
 		return source;
 	}

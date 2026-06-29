@@ -1,4 +1,4 @@
-package edu.remad.tutoring3.controllers;
+package edu.remad.tutoring3.controllers.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

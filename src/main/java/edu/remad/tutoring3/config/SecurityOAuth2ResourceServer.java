@@ -38,19 +38,20 @@ public class SecurityOAuth2ResourceServer {
 
 	@Bean
 	@Order(2)
-	SecurityFilterChain unauthroizedFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain unauthorizedFilterChain(HttpSecurity http) throws Exception {
 		return http.securityMatcher("/**")
 				.sessionManagement(session -> session.maximumSessions(1).maxSessionsPreventsLogin(true))
 				.authorizeHttpRequests(requests -> requests.anyRequest().permitAll())
 				.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())).build();
 	}
-	
+
 	@Bean
 	@Order(3)
-	SecurityFilterChain unauthroizedApiTestFilterChain(HttpSecurity http) throws Exception {
-		return http.securityMatcher("/api/test/**")
-				.sessionManagement(session -> session.maximumSessions(1).maxSessionsPreventsLogin(true))
-				.authorizeHttpRequests(requests -> requests.anyRequest().permitAll())
-				.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())).build();
+	SecurityFilterChain unauthorizedApiTestFilterChain(HttpSecurity http) throws Exception {
+		return http
+				.securityMatcher("/test/**")
+				.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/test/**").permitAll().anyRequest().authenticated())
+				.build();
 	}
 }

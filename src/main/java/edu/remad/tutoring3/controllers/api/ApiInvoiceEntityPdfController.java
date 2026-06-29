@@ -1,4 +1,4 @@
-package edu.remad.tutoring3.controllers;
+package edu.remad.tutoring3.controllers.api;
 
 import java.util.List;
 import java.util.stream.Collectors;

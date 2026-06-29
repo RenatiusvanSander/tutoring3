@@ -1,4 +1,4 @@
-package edu.remad.tutoring3.controllers;
+package edu.remad.tutoring3.controllers.api;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

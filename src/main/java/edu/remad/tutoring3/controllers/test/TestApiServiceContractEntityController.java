@@ -1,4 +1,4 @@
-package edu.remad.tutoring3.controllers;
+package edu.remad.tutoring3.controllers.test;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +21,11 @@ import edu.remad.tutoring3.services.ServiceContractService;
  * Controls API REST Endpoints for service contracts
  * 
  * @author edu.remad
- * @since 2025
+ * @since 2026
  */
-@RequestMapping("/api/servicecontracts")
+@RequestMapping("/test/servicecontracts")
 @RestController
-public class ApiServiceContractEntityController {
+public class TestApiServiceContractEntityController {
 
 	private final ServiceContractService serviceContractService;
 
@@ -34,7 +34,7 @@ public class ApiServiceContractEntityController {
 	 * 
 	 * @param serviceContractPriceEntityService {@link ServiceContractService}
 	 */
-	public ApiServiceContractEntityController(ServiceContractService serviceContractService) {
+	public TestApiServiceContractEntityController(ServiceContractService serviceContractService) {
 		this.serviceContractService = serviceContractService;
 	}
 

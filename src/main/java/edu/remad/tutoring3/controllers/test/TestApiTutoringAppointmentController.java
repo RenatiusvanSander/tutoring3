@@ -34,7 +34,7 @@ import edu.remad.tutoring3.services.UserEntityService;
  * @author edu.remad
  * @since 2025
  */
-@RequestMapping("/api/test/tutoring-appointments")
+@RequestMapping("/test/tutoring-appointments")
 @RestController
 public class TestApiTutoringAppointmentController {
 

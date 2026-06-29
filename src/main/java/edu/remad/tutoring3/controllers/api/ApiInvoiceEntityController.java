@@ -1,4 +1,4 @@
-package edu.remad.tutoring3.controllers;
+package edu.remad.tutoring3.controllers.api;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
