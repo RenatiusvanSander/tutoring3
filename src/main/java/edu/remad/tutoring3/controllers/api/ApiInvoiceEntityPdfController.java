@@ -65,7 +65,7 @@ public class ApiInvoiceEntityPdfController {
 	@GetMapping(value = "/getPdfInvoicesInOneFile", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<byte[]> getPdfInvoices(@RequestParam(value = "id") List<Long> ids) {
 		List<InvoiceEntity> invoiceEntities = invoiceEntityService.loadInvoicesByIds(ids);
-		byte[] infoicesPfs = null; // pdfCreatorService.createInvoicesPdfs(invoiceEntities);
+		byte[] infoicesPfs = invoicePdfService.loadInvoicesAndMergeToOneFile(ids);
 		String joinedIds = invoiceEntities.stream().map(String::valueOf).collect(Collectors.joining("_"));
 		HttpHeaders httpHeaders = DownloadHelper.createHttpHeaders("invoices-" + joinedIds + ".pdf");
 
